@@ -7,6 +7,6 @@ def update():
 
 def input(key):
     if key == 'q':
-        quit()
+        application.quit()
 
 app.run()
