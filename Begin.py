@@ -42,6 +42,13 @@ for x in np.arange(0.0, 100.0, ra.uniform(1.0, 3.0)):
             y=ra.uniform(-1.005,-3)
         rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=ra.uniform(-5.0, -1.0))
 
+for x in np.arange(0.0, -100.0, ra.uniform(-1.0, -3.0)):
+    for y in np.arange(1.0, -5.0, ra.uniform(-3.0, -1.0)):
+        if y>-1.005:
+            y=ra.uniform(-1.005,-3)
+        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=ra.uniform(-5.0, -1.0))
+
+
 sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=100)
 ground = Entity(model='cube', color=color.white33,origin_y=.1 ,scale=(100, 10, 1), collider='box', y=-5)
 
