@@ -36,7 +36,7 @@ def set_volume():
     global volume_slider,volume
     volume = volume_slider.value/100
     app.sfxManagerList[0].setVolume(volume)
-    data['MasterVolume'] = volume*100
+    data['MasterVolume'] = round(volume*100)
     with open("data.json", "w") as f:
         json.dump(data, f, indent=4)
 
