@@ -2,7 +2,7 @@ from ursina import *
 import random as ra
 
 
-appy=Ursina()
+app=Ursina()
 
 for x in range(0,100, 1):
     randomBuilding=ra.randint(1,2)
@@ -18,4 +18,4 @@ for xM in range(-1,-100,-1):
     elif randomBuilding==2:
         Entity(model='quad',texture='assets/textures/building2', x=xM, scale=(1,2))
 
-appy.run()
+app.run()
