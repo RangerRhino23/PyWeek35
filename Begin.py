@@ -58,3 +58,5 @@ def input(key):
     if key=='d' or held_keys['d'] and not held_keys['a']:
         PlayerAnimation2.visible=False
         PlayerAnimation.visible=True
+
+app.run()
