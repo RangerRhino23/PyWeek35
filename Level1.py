@@ -6,6 +6,13 @@ import json
 with open("data.json", 'r') as f:
     data=json.load(f)
 
+with open("Async tasks.py", "r") as f:
+    exec(f.read())
+
+with open("SettingsFunctions.py", "r") as f:
+    exec(f.read())
+
+
 Level1Complete=data['Level1Completed']
 
 if Level1Complete:
@@ -66,5 +73,9 @@ def input(key):
     if key=='d' or held_keys['d'] and not held_keys['a']:
         PlayerAnimation2.visible=False
         PlayerAnimation.visible=True
+    if key=='escape':
+        with open("Settings.py", "r") as f:
+            exec(f.read())
 
+app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autoplay=True,loop=True))
 app.run()
