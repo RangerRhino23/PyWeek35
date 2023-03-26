@@ -1,6 +1,6 @@
 from ursina import *
 
-#Version: 1.2
+#Version: 2.0
 
 ###SETUP###
 #REQUIREMENTS: base_speed = 1 and player = Entity()
@@ -18,3 +18,18 @@ def player_movement(player, base_speed):
         player.y -= base_speed * time.dt
     if held_keys['d']:
         player.x += base_speed * time.dt
+
+
+def entity_movement(entity, speed, keys):
+    if keys[0] == True:
+        if held_keys['w']:
+            entity.y += speed * time.dt
+    if keys[1] == True:
+        if held_keys['a']:
+            entity.x -= speed * time.dt
+    if keys[2] == True:
+        if held_keys['s']:
+            entity.y -= speed * time.dt
+    if keys[3] == True:
+        if held_keys['d']:
+            entity.x += speed * time.dt
