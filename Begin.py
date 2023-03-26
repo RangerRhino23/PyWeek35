@@ -17,19 +17,14 @@ camera.add_script(SmoothFollow(target=PlayerAnimation, offset=[0,1,-30], speed=4
 camera.orthographic = True
 camera.fov = 10
 
+buildingPool = ['assets\\textures\\building1.png','assets\\textures\\building2.png']
 for x in range(0,100, 1):
-    randomBuilding=ra.randint(1,2)
-    if randomBuilding==1:
-        Entity(model='quad',texture='assets/textures/building1', x=x, scale=(1,2))
-    elif randomBuilding==2:
-        Entity(model='quad',texture='assets/textures/building2', x=x, scale=(1,2))
+    randomBuilding=ra.choice(buildingPool)
+    Entity(model='quad',texture=randomBuilding,x=x,scale=(1,2))
 
 for xM in range(-1,-100,-1):
-    randomBuilding=ra.randint(1,2)
-    if randomBuilding==1:
-        Entity(model='quad',texture='assets/textures/building1', x=xM, scale=(1,2))
-    elif randomBuilding==2:
-        Entity(model='quad',texture='assets/textures/building2', x=xM, scale=(1,2))
+    randomBuilding=ra.choice(buildingPool)
+    Entity(model='quad',texture=randomBuilding,x=xM,scale=(1,2))
 
 for x in np.arange(0.0, 100.0, ra.uniform(1.0, 3.0)):
     for y in np.arange(1.0, -5.0, ra.uniform(-3.0, -1.0)):
