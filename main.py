@@ -1,6 +1,5 @@
 from ursina import *
 import json
-import assets.APIs.player_movement_api as pma
 
 async def LoadAudio(path, name=None,autoplay=False,loop=False): #Smoothly loads audio files
     global audioname
@@ -100,14 +99,6 @@ volume=data['MasterVolume']/100
 window.vsync=vsyncEnabled
 window.fullscreen=Fullscreen
 app = Ursina(borderless=False)
-window.fullscreen = True
-
-
-def update():
-    pma.player_movement(a,5)
-
-
-a = Animation('assets/textures/bat_gif.gif', scale=2,visible=False)
 
 MainMenu=Entity(model='quad',color=color.black66,scale=100)
 MainMenuStart=Button(text='Start Game',scale_y=.1,scale_x=.2,color=color.clear,highlight_color=color.clear,x=-.7,on_click=StartGame)
