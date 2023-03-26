@@ -49,6 +49,9 @@ def update():
     PlayerAnimation.z=-5
     PlayerAnimation.x=player_controller.x
     PlayerAnimation.y=player_controller.y
+    PlayerAnimation2.z=-5
+    PlayerAnimation2.x=player_controller.x
+    PlayerAnimation2.y=player_controller.y
     pma.player_movement(player_controller, .8)
 
 def input(key):
@@ -58,3 +61,5 @@ def input(key):
     if key=='d' or held_keys['d'] and not held_keys['a']:
         PlayerAnimation2.visible=False
         PlayerAnimation.visible=True
+
+app.run()
