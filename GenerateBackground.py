@@ -1,3 +1,8 @@
+import random as ra
+import numpy as np
+import os
+CustomColor = rgb
+rock_color = CustomColor(55, 55, 55)
 prevBuilding=None
 #Gets all the images from the buildings folder
 imageDirectory = 'assets\\textures\\buildings'

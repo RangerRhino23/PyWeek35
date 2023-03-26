@@ -1,15 +1,27 @@
 from ursina import *
-import random as ra
-import numpy as np
 import assets.APIs.player_movement_api as pma
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
-import os
+import json
 
+with open("data.json", 'r') as f:
+    data=json.load(f)
+
+Level1Complete=data['Level1Completed']
+
+if Level1Complete:
+    app=Ursina()
+
+    Text("Level 1 completed already!")
+    timer=0
+
+    def update():
+        global timer
+        timer+=time.dt
+        if timer>=5:
+            application.quit()
+    app.run()
 
 app=Ursina()
-
-CustomColor = rgb
-rock_color = CustomColor(55, 55, 55)
 
 
 player_controller = PlatformerController2d(scale_y=2, jump_height=2, x=3,model=None, y=20)

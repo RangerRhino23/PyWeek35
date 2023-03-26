@@ -1,5 +1,6 @@
 {
     "vsyncEnabled": true,
     "Fullscreen": false,
-    "MasterVolume": 100
+    "MasterVolume": 100,
+    "Level1Completed": false
 }
