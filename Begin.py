@@ -11,10 +11,11 @@ app=Ursina()
 CustomColor = rgb
 rock_color = CustomColor(55, 55, 55)
 
-player_controller = PlatformerController2d(scale_y=2, jump_height=4, x=3,model=None, y=20)
+player_controller = PlatformerController2d(scale_y=2, jump_height=2, x=3,model=None, y=20)
 
-PlayerAnimation=Animation('assets/textures/bat_gif.gif',parent=scene,scale=.5,z=-5)
-PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',parent=scene,visible=False,scale=.5,z=-5)
+PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=-5)
+camera.position=player_controller.position + (0,7,0)
+PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',fps=24,parent=scene,visible=False,scale=.5,z=-5)
 camera.add_script(SmoothFollow(target=PlayerAnimation, offset=[0,1,-30], speed=4))
 camera.orthographic = True
 camera.fov = 10
@@ -49,8 +50,8 @@ for x in np.arange(0.0, -100.0, ra.uniform(-1.0, -3.0)):
         rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=ra.uniform(-5.0, -1.0))
 
 
-sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=100)
-ground = Entity(model='cube', color=color.white33,origin_y=.1 ,scale=(100, 10, 1), collider='box', y=-5)
+sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(30,30))
+ground = Entity(model='cube', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5)
 
 def update():
     PlayerAnimation.z=-5
