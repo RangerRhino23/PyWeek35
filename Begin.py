@@ -10,6 +10,7 @@ app=Ursina()
 
 CustomColor = rgb
 rock_color = CustomColor(55, 55, 55)
+prevBuilding=None
 
 player_controller = PlatformerController2d(scale_y=2, jump_height=2, x=3,model=None, y=20)
 
@@ -30,11 +31,17 @@ for filename in os.listdir(imageDirectory):
 #Creates buildings to the right of 0,0
 for x in range(0,100, 1):
     randomBuilding=ra.choice(buildingPool)
+    if randomBuilding == prevBuilding:
+        randomBuilding=ra.choice(buildingPool)
+    prevBuilding=randomBuilding
     Entity(model='quad',texture=randomBuilding,x=x,scale=(1,2))
 
 #Creates buildings to the left of 0,0
 for xM in range(-1,-100,-1):
     randomBuilding=ra.choice(buildingPool)
+    if randomBuilding == prevBuilding:
+        randomBuilding=ra.choice(buildingPool)
+    prevBuilding=randomBuilding
     Entity(model='quad',texture=randomBuilding,x=xM,scale=(1,2))
 
 for x in np.arange(0.0, 100.0, ra.uniform(1.0, 3.0)):
