@@ -3,6 +3,7 @@ import random as ra
 import numpy as np
 import assets.APIs.player_movement_api as pma
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
+import os
 
 
 app=Ursina()
@@ -17,11 +18,19 @@ camera.add_script(SmoothFollow(target=PlayerAnimation, offset=[0,1,-30], speed=4
 camera.orthographic = True
 camera.fov = 10
 
-buildingPool = ['assets\\textures\\building1.png','assets\\textures\\building2.png']
+#Gets all the images from the buildings folder
+imageDirectory = 'assets\\textures\\buildings'
+buildingPool = []
+for filename in os.listdir(imageDirectory):
+    if filename.endswith('.png'):
+        buildingPool.append(os.path.join(imageDirectory, filename))
+
+#Creates buildings to the right of 0,0
 for x in range(0,100, 1):
     randomBuilding=ra.choice(buildingPool)
     Entity(model='quad',texture=randomBuilding,x=x,scale=(1,2))
 
+#Creates buildings to the left of 0,0
 for xM in range(-1,-100,-1):
     randomBuilding=ra.choice(buildingPool)
     Entity(model='quad',texture=randomBuilding,x=xM,scale=(1,2))
