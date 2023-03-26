@@ -2,9 +2,6 @@ from ursina import *
 import json
 import assets.APIs.player_movement_api as pma
 
-def GameStart():
-    pass
-
 async def LoadAudio(path, name=None,autoplay=False,loop=False): #Smoothly loads audio files
     global audioname
     audioname = loader.loadSfx(path)
@@ -79,9 +76,13 @@ def SettingsMenuReturn():
     SettingsMusic.stop(); AmbientSound1.play()
     destroy(VsyncSetting); destroy(volume_slider); destroy(FullscreenSetting)
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
-    
+
+def StartGame():
+    pass
 with open("data.json", 'r') as f:
     data=json.load(f)
+
+
 
 global vsyncEnabled,Fullscreen
 vsyncEnabled=data['vsyncEnabled']
