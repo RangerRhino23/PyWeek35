@@ -107,6 +107,7 @@ Level1Completed=data['Level1Completed']
 
 window.vsync=vsyncEnabled
 window.fullscreen=Fullscreen
+window.title = "Echoes in the Dark"
 app = Ursina(borderless=False)
 
 MainMenu=Entity(model='quad',color=color.black66,scale=100)

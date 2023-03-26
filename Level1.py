@@ -21,10 +21,19 @@ if Level1Complete:
             application.quit()
     app.run()
 
+vsyncEnabled=data['vsyncEnabled']
+Fullscreen=data['Fullscreen']
+MasterVolume=data['MasterVolume']
+volume=data['MasterVolume']/100
+Level1Completed=data['Level1Completed']
+
+window.vsync=vsyncEnabled
+window.fullscreen=Fullscreen
+window.title="Echoes in the Dark"
 app=Ursina()
 
-
-player_controller = PlatformerController2d(scale_y=2, jump_height=2, x=3,model=None, y=20)
+app.sfxManagerList[0].setVolume(volume/100)
+player_controller = PlatformerController2d(walk_speed=0,scale_y=2, jump_height=2, x=3,model=None, y=20)
 
 PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=-5)
 camera.position=player_controller.position + (0,7,0)
@@ -48,7 +57,7 @@ def update():
     PlayerAnimation2.z=-5
     PlayerAnimation2.x=player_controller.x
     PlayerAnimation2.y=player_controller.y
-    pma.player_movement(player_controller, .8)
+    pma.player_movement(player_controller, 3)
 
 def input(key):
     if key=='a' or held_keys=='a' and not held_keys['d']:
