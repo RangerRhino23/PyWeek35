@@ -27,20 +27,20 @@ buildingPool = []
 for filename in os.listdir(imageDirectory):
     if filename.endswith('.png'):
         buildingPool.append(os.path.join(imageDirectory, filename))
-
+print(buildingPool)
 #Creates buildings to the right of 0,0
 for x in range(0,100, 1):
-    randomBuilding=ra.choice(buildingPool)
-    if randomBuilding == prevBuilding:
-        randomBuilding=ra.choice(buildingPool)
+    randomBuilding = ra.choice(buildingPool)
+    while randomBuilding == prevBuilding:
+        randomBuilding = ra.choice(buildingPool)
     prevBuilding=randomBuilding
     Entity(model='quad',texture=randomBuilding,x=x,scale=(1,2))
 
 #Creates buildings to the left of 0,0
 for xM in range(-1,-100,-1):
-    randomBuilding=ra.choice(buildingPool)
-    if randomBuilding == prevBuilding:
-        randomBuilding=ra.choice(buildingPool)
+    randomBuilding = ra.choice(buildingPool)
+    while randomBuilding == prevBuilding:
+        randomBuilding = ra.choice(buildingPool)
     prevBuilding=randomBuilding
     Entity(model='quad',texture=randomBuilding,x=xM,scale=(1,2))
 
