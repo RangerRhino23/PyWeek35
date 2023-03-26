@@ -77,16 +77,19 @@ def SettingsMenuReturn():
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
 
 def StartGame():
-    import subprocess
-    import sys
-    import os
+    if not Level1Completed:
+        import subprocess
+        import sys
+        import os
 
-    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+        current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "Level1.py")
+        file_path = os.path.join(current_dir, "Level1.py")
 
-    subprocess.Popen(["python", file_path])
-    sys.exit()
+        subprocess.Popen(["python", file_path])
+        sys.exit()
+    else:
+        print_on_screen("Level 1 beat please await for code to load level 2",duration=3)
 
 
 with open("data.json", 'r') as f:
@@ -99,6 +102,7 @@ vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
+Level1Completed=data['Level1Completed']
 
 
 window.vsync=vsyncEnabled
