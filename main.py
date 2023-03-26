@@ -60,7 +60,7 @@ def ChangeScreen():
 def SettingsMenu():
     global VsyncSetting,volume_slider,volume,FullscreenSetting
     MainMenuStart.disabled=True; MainMenuStart.visible=False
-    SettingsMusic.play()
+    SettingsMusic.play(); AmbientSound1.stop()
     MainMenuSettings.on_click=SettingsMenuReturn; MainMenuSettings.text='Return'; MainMenuSettings.y=-.3
     if vsyncEnabled:
         VsyncSetting=Button(text=f'Vsync: on',scale_x=.2,scale_y=.1,y=.3,x=-.35,color=color.clear,highlight_color=color.clear,on_click=ChangeVsync)
@@ -76,7 +76,7 @@ def SettingsMenu():
 def SettingsMenuReturn():
     MainMenuSettings.on_click=SettingsMenu; MainMenuSettings.text='Settings'; MainMenuSettings.y=-.1
     MainMenuStart.disabled=False; MainMenuStart.visible=True
-    SettingsMusic.stop()
+    SettingsMusic.stop(); AmbientSound1.play()
     destroy(VsyncSetting); destroy(volume_slider); destroy(FullscreenSetting)
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
     
@@ -99,9 +99,6 @@ window.fullscreen = True
 def update():
     pma.player_movement(a,5)
 
-def input(key):
-    if key == 'q' or key == 'esc':
-        application.quit()
 
 a = Animation('assets/textures/bat_gif.gif', scale=2,visible=False)
 
@@ -112,5 +109,6 @@ MainMenuQuit=Button(text='Quit to desktop',scale_y=.1,scale_x=.2,color=color.cle
 
 #Audio loading
 app.taskMgr.add(LoadAudio(path="assets/audio/settings.ogg",name="SettingsMusic",loop=True))
+app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="AmbientSound1",autoplay=True,loop=True))
 
 app.run()
