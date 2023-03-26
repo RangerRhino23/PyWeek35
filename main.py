@@ -78,7 +78,13 @@ def SettingsMenuReturn():
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
 
 def StartGame():
-    pass
+    import sys, os
+    mainpath = os.path.abspath(os.path.dirname(sys.argv[0]))
+    sys.path.append(mainpath)
+    sys.path.append(os.path.join(mainpath,"src"))
+    import Begin
+    Begin.main(mainpath)
+
 with open("data.json", 'r') as f:
     data=json.load(f)
 
