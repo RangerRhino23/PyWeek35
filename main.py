@@ -1,12 +1,18 @@
 from ursina import *
+import assets.APIs.player_movement_api as pma
 
 app = Ursina()
+window.fullscreen = True
+
+
 
 def update():
-    pass
+    pma.player_movement(a,5)
 
 def input(key):
-    if key == 'q':
+    if key == 'q' or key == 'esc':
         application.quit()
+
+a = Animation('assets/textures/bat_gif.gif', scale=7)
 
 app.run()
