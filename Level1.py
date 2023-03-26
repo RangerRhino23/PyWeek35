@@ -39,7 +39,7 @@ window.fullscreen=Fullscreen
 window.title="Echoes in the Dark"
 app=Ursina()
 
-app.sfxManagerList[0].setVolume(volume/100)
+app.sfxManagerList[0].setVolume(volume)
 player_controller = PlatformerController2d(walk_speed=0,scale_y=2, jump_height=2, x=3,model=None, y=20)
 
 PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=-5)
