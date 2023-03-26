@@ -77,12 +77,17 @@ def SettingsMenuReturn():
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
 
 def StartGame():
-    import sys, os
-    mainpath = os.path.abspath(os.path.dirname(sys.argv[0]))
-    sys.path.append(mainpath)
-    sys.path.append(os.path.join(mainpath,"src"))
-    import Begin
-    Begin.main(mainpath)
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "Begin.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
+
 
 with open("data.json", 'r') as f:
     data=json.load(f)

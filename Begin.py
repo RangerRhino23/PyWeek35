@@ -1,7 +1,8 @@
 from ursina import *
 
-app=Ursina()
+
+appy=Ursina()
 
 Entity(model='quad',texture="grass")
 
-app.run()
+appy.run()
