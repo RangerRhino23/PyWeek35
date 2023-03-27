@@ -66,3 +66,4 @@ def SettingsMenuReturn():
 
 def Return():
     destroy(MainMenuSettings); destroy(MainMenuStart); destroy(MainMenuQuit); destroy(MainMenuBackground)
+    Insettings=False
