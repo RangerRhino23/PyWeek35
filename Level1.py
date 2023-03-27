@@ -3,6 +3,14 @@ import assets.APIs.player_movement_api as pma
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 import json
 
+"""
+imageDirectory = 'assets/textures/buildings'
+buildingPool = []
+for filename in os.listdir(imageDirectory):
+    if filename.endswith('.png'):
+        buildingPool.append(Texture(os.path.join(imageDirectory, filename)))
+"""
+
 with open("data.json", 'r') as f:
     data=json.load(f)
 
@@ -14,6 +22,54 @@ with open("SettingsFunctions.py", "r") as f:
 
 
 Level1Complete=data['Level1Completed']
+
+def Inverse():
+    inverse_paths = {}
+    for i in range(1, 10):
+        inverse_paths[i] = 'assets/textures/buildingsInverse/building{}.png'.format(i)
+
+    if not hasattr(Inverse, 'state'):
+        Inverse.state = 'normal'
+    
+    if Inverse.state == 'normal':
+        for e in scene.entities:
+            if isinstance(e, Entity) and e.texture is not None:
+                if isinstance(e.texture, Texture) and e.texture.path is not None:
+                    texture_path = e.texture.path
+                elif isinstance(e.texture, str):
+                    texture_path = e.texture
+                else:
+                    texture_path = None
+                
+                if texture_path is not None:
+                    filename = os.path.basename(texture_path)
+                    if filename.startswith('building') and filename.endswith('.png'):
+                        building_num = filename[8]
+                        if building_num.isdigit() and int(building_num) in range(1, 10):
+                            inverse_path = inverse_paths[int(building_num)]
+                            e.texture = inverse_path
+        
+        Inverse.state = 'inverse'
+    
+    elif Inverse.state == 'inverse':
+        for e in scene.entities:
+            if isinstance(e, Entity) and e.texture is not None:
+                if isinstance(e.texture, Texture) and e.texture.path is not None:
+                    texture_path = e.texture.path
+                elif isinstance(e.texture, str):
+                    texture_path = e.texture
+                else:
+                    texture_path = None
+                
+                if texture_path is not None:
+                    filename = os.path.basename(texture_path)
+                    if filename.startswith('building') and filename.endswith('.png'):
+                        building_num = filename[8]
+                        if building_num.isdigit() and int(building_num) in range(1, 10):
+                            normal_path = 'assets/textures/buildings/building{}.png'.format(building_num)
+                            e.texture = normal_path
+                Inverse.state = 'normal'
+
 
 if Level1Complete:
     app=Ursina()
@@ -71,6 +127,8 @@ def update():
 
 def input(key):
     global InSettings
+    if key=='w':
+        Inverse()
     if key=='a' or held_keys=='a' and not held_keys['d']:
         PlayerAnimation2.visible=True
         PlayerAnimation.visible=False

@@ -1,16 +1,17 @@
 import random as ra
 import numpy as np
 import os
-CustomColor = rgb
-rock_color = CustomColor(55, 55, 55)
-prevBuilding=None
 #Gets all the images from the buildings folder
-imageDirectory = 'assets\\textures\\buildings'
+imageDirectory = 'assets/textures/buildings'
 buildingPool = []
 for filename in os.listdir(imageDirectory):
     if filename.endswith('.png'):
-        buildingPool.append(os.path.join(imageDirectory, filename))
+        buildingPool.append(Texture(os.path.join(imageDirectory, filename)))
 print(buildingPool)
+CustomColor = rgb
+rock_color = CustomColor(55, 55, 55)
+prevBuilding=None
+
 #Creates buildings to the right of 0,0
 for x in range(0,100, 1):
     randomBuilding = ra.choice(buildingPool)
