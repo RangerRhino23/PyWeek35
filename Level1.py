@@ -34,6 +34,7 @@ MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
 Level1Completed=data['Level1Completed']
 
+
 window.vsync=vsyncEnabled
 window.fullscreen=Fullscreen
 window.title="Echoes in the Dark"
@@ -56,7 +57,7 @@ with open("GenerateBackground.py", "r") as f:
 
 sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(30,30))
 ground = Entity(model='cube', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5)
-
+InSettings=False
 def update():
     PlayerAnimation.z=-5
     PlayerAnimation.x=player_controller.x
@@ -66,16 +67,20 @@ def update():
     PlayerAnimation2.y=player_controller.y
     pma.player_movement(player_controller, 3)
 
+
+
 def input(key):
+    global InSettings
     if key=='a' or held_keys=='a' and not held_keys['d']:
         PlayerAnimation2.visible=True
         PlayerAnimation.visible=False
     if key=='d' or held_keys['d'] and not held_keys['a']:
         PlayerAnimation2.visible=False
         PlayerAnimation.visible=True
-    if key=='escape':
+    if key=='escape' and InSettings==False:
+        InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
-
+        
 app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autoplay=True,loop=True))
 app.run()

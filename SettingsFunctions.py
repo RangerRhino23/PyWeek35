@@ -65,5 +65,6 @@ def SettingsMenuReturn():
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
 
 def Return():
+    global InSettings
     destroy(MainMenuSettings); destroy(MainMenuStart); destroy(MainMenuQuit); destroy(MainMenuBackground)
-    Insettings=False
+    InSettings=False
