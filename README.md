@@ -13,3 +13,7 @@ I hope you enjoy the game as much as we did making it.
 We look forward to us trying out other peoples games and we wish everyone the best of luck in this pyweek 35th compition!
 
 updates rolled out every night around 8PM-3AM, we do work on it during the day aswell but the time we mainly code is at that time 
+
+You can reach both developers by their socials:
+
+RangerRhino23: <a href="https://github.com/RangerRhino23" target="_blank">Github</a>, <a href="mailto:rangerrhino23@outlook.com" target="_blank">Email</a>, Discord: RangerRhino#4484, and RangerRhino23: <a href="https://github.com/RangerRhino23" target="_blank">Github</a>, <a href="mailto:rangerrhino23@outlook.com" target="_blank">Email</a>, and Discord: RangerRhino#4484
