@@ -181,7 +181,7 @@ class MovingPlatform(Entity):
         print(player_controller.y)
         print(self.y)
         self.dist=distance(self,player_controller)
-        if self.dist<.6 and player_controller.y==self.y+.5 and self.collider=='box':
+        if self.dist<.7 and self.collider=='box':
             player_controller.x=self.x
         if self.x==self.fromX:
             self.animate_position([self.toX,self.y],duration=3)
