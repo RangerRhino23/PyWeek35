@@ -18,7 +18,7 @@ for x in range(0,100, 1):
     while randomBuilding == prevBuilding:
         randomBuilding = ra.choice(buildingPool)
     prevBuilding=randomBuilding
-    Entity(model='quad',texture=randomBuilding,x=x,scale=(1,2))
+    Entity(model='quad',texture=randomBuilding,x=x,scale=(1,2),z=.1)
 
 #Creates buildings to the left of 0,0
 for xM in range(-1,-100,-1):
@@ -26,16 +26,16 @@ for xM in range(-1,-100,-1):
     while randomBuilding == prevBuilding:
         randomBuilding = ra.choice(buildingPool)
     prevBuilding=randomBuilding
-    Entity(model='quad',texture=randomBuilding,x=xM,scale=(1,2))
+    Entity(model='quad',texture=randomBuilding,x=xM,scale=(1,2),z=.1)
 
 for x in np.arange(0.0, 100.0, ra.uniform(1.0, 3.0)):
     for y in np.arange(1.0, -5.0, ra.uniform(-3.0, -1.0)):
         if y>-1.005:
             y=ra.uniform(-1.005,-3)
-        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=ra.uniform(-5.0, -1.0))
+        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=1)
 
 for x in np.arange(0.0, -100.0, ra.uniform(-1.0, -3.0)):
     for y in np.arange(1.0, -5.0, ra.uniform(-3.0, -1.0)):
         if y>-1.005:
             y=ra.uniform(-1.005,-3)
-        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=ra.uniform(-5.0, -1.0))
+        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=1)

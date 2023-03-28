@@ -3,13 +3,6 @@ import assets.APIs.player_movement_api as pma
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 import json
 
-"""
-imageDirectory = 'assets/textures/buildings'
-buildingPool = []
-for filename in os.listdir(imageDirectory):
-    if filename.endswith('.png'):
-        buildingPool.append(Texture(os.path.join(imageDirectory, filename)))
-"""
 
 with open("data.json", 'r') as f:
     data=json.load(f)
@@ -69,8 +62,23 @@ def Inverse():
                             normal_path = 'assets/textures/buildings/building{}.png'.format(building_num)
                             e.texture = normal_path
                 Inverse.state = 'normal'
-
-
+    for e in scene.entities:
+        if Inverse.state == 'inverse':
+            if hasattr(e, "ID"):
+                if e.ID=="Normal":
+                    e.color=color.rgb(255,0,255)
+                    e.collider=None
+                if e.ID=="Inversed":
+                    e.color=color.black66
+                    e.collider='box'
+        else:
+            if hasattr(e, "ID"):
+                if e.ID=="Normal":
+                    e.color=color.black66
+                    e.collider='box'
+                if e.ID=="Inversed":
+                    e.color=color.rgb(255,0,255)
+                    e.collider=None
 if Level1Complete:
     app=Ursina()
 
@@ -112,7 +120,8 @@ with open("GenerateBackground.py", "r") as f:
 
 
 sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(30,30))
-ground = Entity(model='cube', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5)
+ground = Entity(model='quad', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5)
+
 InSettings=False
 def update():
     PlayerAnimation.z=-5
@@ -123,12 +132,23 @@ def update():
     PlayerAnimation2.y=player_controller.y
     pma.player_movement(player_controller, 3)
 
+Timer=0
+InverseCooldown=False  
+def InverseTimer():
+    global Timer,InverseCooldown
+    if InverseCooldown:
+        Timer+=time.dt
+        if Timer>=1:
+            InverseCooldown=False
+            Timer=0
 
+Entity(update=InverseTimer)
 
 def input(key):
-    global InSettings
-    if key=='w':
+    global InSettings,InverseCooldown
+    if key=='w' and not InverseCooldown:
         Inverse()
+        InverseCooldown=True
     if key=='a' or held_keys=='a' and not held_keys['d']:
         PlayerAnimation2.visible=True
         PlayerAnimation.visible=False
@@ -141,4 +161,13 @@ def input(key):
             exec(f.read())
         
 app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autoplay=True,loop=True))
+
+#############
+# TEST AREA #
+#############
+
+puzzleBlockOne=Entity(ID="Normal",model='quad',color=color.black66,z=player_controller.z,scale=.3,collider='box')
+PuzzleBlackTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=2,scale=.3)
+
+
 app.run()
