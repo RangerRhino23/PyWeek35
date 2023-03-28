@@ -106,7 +106,7 @@ window.title="Echoes in the Dark"
 app=Ursina()
 
 app.sfxManagerList[0].setVolume(volume)
-player_controller = PlatformerController2d(walk_speed=0,scale_y=2, jump_height=2, x=3,model=None, y=20)
+player_controller = PlatformerController2d(walk_speed=0,scale_y=.5,scale_x=.25, jump_height=2, x=3,model=None, y=20)
 
 PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=-5)
 camera.position=player_controller.position + (0,7,0)
@@ -169,24 +169,24 @@ app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autop
 
 class MovingPlatform(Entity):
     def __init__(self,ID, fromX, toX,y=0,x=0, **kwargs):
-        super().__init__(self,model='quad',collider='box', parent=scene,z=player_controller.z,x=x,y=y)
+        super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y)
         self.fromX=fromX
         self.toX=toX
         self.ID=ID
+        self.collider='box'
         self.scale_x=.8
         self.scale_y=.2
-        self.color=color.black66
+        self.color=color.blue
         self.direction = Vec3(1, 0, 0)
         self.speed = 2
         self.x=fromX
         self.y=y
         self.hasCollider=True
+        self.collider.visible=True
 
     def update(self):
-        print(player_controller.y)
-        print(self.y)
         self.dist=distance(self,player_controller)
-        if self.dist<.6 and self.hasCollider:
+        if player_controller.intersects(self) and self.hasCollider:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
