@@ -173,25 +173,32 @@ class MovingPlatform(Entity):
         self.fromX=fromX
         self.toX=toX
         self.ID=ID
+        self.scale_x=.8
+        self.scale_y=.2
         self.color=color.black66
+        self.direction = Vec3(1, 0, 0)
+        self.speed = 2
         self.x=fromX
         self.y=y
+        self.hasCollider=True
 
     def update(self):
         print(player_controller.y)
         print(self.y)
         self.dist=distance(self,player_controller)
-        if self.dist<.7 and self.collider=='box':
+        if self.dist<.6 and self.hasCollider:
             player_controller.x=self.x
-        if self.x==self.fromX:
-            self.animate_position([self.toX,self.y],duration=3)
-        elif self.x==self.toX:
-            self.animate_position([self.fromX,self.y], duration=3)
-        
+        self.position += self.direction * self.speed * time.dt
+        if self.position.x > self.toX:
+            self.direction = Vec3(-1, 0, 0)
+        elif self.position.x < self.fromX:
+            self.direction = Vec3(1, 0, 0)
         if self.ID=='Normal':
             self.collider='box'
+            self.hasCollider=True
         else:
             self.collider=None
+            self.hasCollider=False
 
 puzzleBlockOne=Entity(ID="Normal",model='quad',color=color.black66,z=player_controller.z,scale=.3,x=2,collider='box')
 PuzzleBlackTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=4,scale=.3,y=1)
