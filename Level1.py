@@ -79,6 +79,7 @@ def Inverse():
                 if e.ID=="Inversed":
                     e.color=color.rgb(255,0,255)
                     e.collider=None
+
 if Level1Complete:
     app=Ursina()
 
@@ -166,8 +167,35 @@ app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autop
 # TEST AREA #
 #############
 
-puzzleBlockOne=Entity(ID="Normal",model='quad',color=color.black66,z=player_controller.z,scale=.3,collider='box')
-PuzzleBlackTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=2,scale=.3)
+class MovingPlatform(Entity):
+    def __init__(self,ID, fromX, toX,y=0,x=0, **kwargs):
+        super().__init__(self,model='quad',collider='box', parent=scene,z=player_controller.z,x=x,y=y)
+        self.fromX=fromX
+        self.toX=toX
+        self.ID=ID
+        self.color=color.black66
+        self.x=fromX
+        self.y=y
+
+    def update(self):
+        print(player_controller.y)
+        print(self.y)
+        self.dist=distance(self,player_controller)
+        if self.dist<.6 and player_controller.y==self.y+.5 and self.collider=='box':
+            player_controller.x=self.x
+        if self.x==self.fromX:
+            self.animate_position([self.toX,self.y],duration=3)
+        elif self.x==self.toX:
+            self.animate_position([self.fromX,self.y], duration=3)
+        
+        if self.ID=='Normal':
+            self.collider='box'
+        else:
+            self.collider=None
+
+puzzleBlockOne=Entity(ID="Normal",model='quad',color=color.black66,z=player_controller.z,scale=.3,x=2,collider='box')
+PuzzleBlackTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=4,scale=.3,y=1)
+MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=1,fromX=6,toX=10)
 
 
 app.run()
