@@ -16,4 +16,4 @@ updates rolled out every night around 8PM-3AM, we do work on it during the day a
 
 You can reach both developers by their socials:
 
-RangerRhino23: <a href="https://github.com/RangerRhino23" target="_blank">Github</a>, <a href="mailto:rangerrhino23@outlook.com" target="_blank">Email</a>, Discord: RangerRhino#4484, and RangerRhino23: <a href="https://github.com/RangerRhino23" target="_blank">Github</a>, <a href="mailto:rangerrhino23@outlook.com" target="_blank">Email</a>, and Discord: RangerRhino#4484
+RangerRhino23: <a href="https://github.com/RangerRhino23" target="_blank">Github</a>, <a href="mailto:rangerrhino23@outlook.com" target="_blank">Email</a>, <a href="https://youtube.come@RangerRhino23" target="_blank">Youtube</a>, and Discord: RangerRhino#4484
