@@ -132,11 +132,11 @@ def update():
     PlayerAnimation2.z=-5
     PlayerAnimation2.x=player_controller.x
     PlayerAnimation2.y=player_controller.y
-    print(InversedMode)
+    #print(InversedMode)
     if InversedMode:
-        pma.player_movement(player_controller, 1.5)
+        pma.player_movement(player_controller, 1.5, InSettings)
     else:
-        pma.player_movement(player_controller, 3)
+        pma.player_movement(player_controller, 3, InSettings)
 
 Timer=0
 InverseCooldown=False  
@@ -152,7 +152,7 @@ Entity(update=InverseTimer)
 
 def input(key):
     global InSettings,InverseCooldown,InversedMode
-    if key=='w' and not InverseCooldown:
+    if key=='w' and not InverseCooldown and not InSettings:
         Inverse()
         InverseCooldown=True
         if InversedMode:
