@@ -107,11 +107,11 @@ window.title="Echoes in the Dark"
 app=Ursina()
 
 app.sfxManagerList[0].setVolume(volume)
-player_controller = PlatformerController2d(walk_speed=0,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", y=20)
+player_controller = PlatformerController2d(walk_speed=0,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", y=20, collider='box', visible=False)
 
-PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=-5)
+PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=0)
 camera.position=player_controller.position + (0,7,0)
-PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',fps=24,parent=scene,visible=False,scale=.5,z=-5)
+PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',fps=24,parent=scene,visible=False,scale=.5,z=0)
 camera.add_script(SmoothFollow(target=player_controller, offset=[0,1,-30], speed=4))
 camera.orthographic = True
 camera.fov = 10
@@ -122,7 +122,7 @@ with open("GenerateBackground.py", "r") as f:
 
 
 sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(35,35))
-ground = Entity(model='quad', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5)
+ground = Entity(model='quad', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5, z=-1)
 
 InSettings=False
 
@@ -130,8 +130,8 @@ def update():
     if player_controller.y<-1.1:
         player_controller.y=-1.05
     print(player_controller.position)
-    PlayerAnimation.position=player_controller.position
-    PlayerAnimation2.position=player_controller.position
+    PlayerAnimation.position=player_controller.position+(0,0.2,0)
+    PlayerAnimation2.position=player_controller.position+(0,0.2,0)
     #print(InversedMode)
     if InversedMode and not InSettings:
         pma.player_movement(player_controller, 1.5)
