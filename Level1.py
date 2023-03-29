@@ -15,6 +15,7 @@ with open("SettingsFunctions.py", "r") as f:
 
 
 Level1Complete=data['Level1Completed']
+InversedMode=False
 
 def Inverse():
     inverse_paths = {}
@@ -69,12 +70,12 @@ def Inverse():
                     e.color=color.rgb(255,0,255)
                     e.collider=None
                 if e.ID=="Inversed":
-                    e.color=color.black66
+                    e.color=color.black33
                     e.collider='box'
         else:
             if hasattr(e, "ID"):
                 if e.ID=="Normal":
-                    e.color=color.black66
+                    e.color=color.black33
                     e.collider='box'
                 if e.ID=="Inversed":
                     e.color=color.rgb(255,0,255)
@@ -131,7 +132,11 @@ def update():
     PlayerAnimation2.z=-5
     PlayerAnimation2.x=player_controller.x
     PlayerAnimation2.y=player_controller.y
-    pma.player_movement(player_controller, 3)
+    print(InversedMode)
+    if InversedMode:
+        pma.player_movement(player_controller, 1.5)
+    else:
+        pma.player_movement(player_controller, 3)
 
 Timer=0
 InverseCooldown=False  
@@ -146,10 +151,14 @@ def InverseTimer():
 Entity(update=InverseTimer)
 
 def input(key):
-    global InSettings,InverseCooldown
+    global InSettings,InverseCooldown,InversedMode
     if key=='w' and not InverseCooldown:
         Inverse()
         InverseCooldown=True
+        if InversedMode:
+            InversedMode=False
+        else:
+            InversedMode=True
     if key=='a' or held_keys=='a' and not held_keys['d']:
         PlayerAnimation2.visible=True
         PlayerAnimation.visible=False
@@ -162,30 +171,29 @@ def input(key):
             exec(f.read())
         
 app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autoplay=True,loop=True))
+app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 
-#############
-# TEST AREA #
-#############
+##############
+# BUILD AREA #
+##############
 
 class MovingPlatform(Entity):
     def __init__(self,ID, fromX, toX,y=0,x=0, **kwargs):
-        super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y)
+        super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y, **kwargs)
         self.fromX=fromX
         self.toX=toX
         self.ID=ID
         self.collider='box'
         self.scale_x=.8
         self.scale_y=.2
-        self.color=color.blue
+        self.color=color.black33
         self.direction = Vec3(1, 0, 0)
         self.speed = 2
         self.x=fromX
         self.y=y
         self.hasCollider=True
-        self.collider.visible=True
 
     def update(self):
-        self.dist=distance(self,player_controller)
         if player_controller.intersects(self) and self.hasCollider:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
@@ -199,10 +207,29 @@ class MovingPlatform(Entity):
         else:
             self.collider=None
             self.hasCollider=False
+        
+class Interactable(Entity):
+    def __init__(self,functionCallBack, **kwargs):
+        super().__init__(self,model='quad',z=player_controller.z,color=color.black, **kwargs)
+        self.scale=.1
+        self.functionCallBack = functionCallBack
+        self.duration=0
+    def update(self):
+        pass
 
-puzzleBlockOne=Entity(ID="Normal",model='quad',color=color.black66,z=player_controller.z,scale=.3,x=2,collider='box')
-PuzzleBlackTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=4,scale=.3,y=1)
-MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=1,fromX=6,toX=10)
-
+    def input(self, key):
+        self.dist=distance(self,player_controller)
+        if self.dist<.3 and key=='e':
+            destroy(self)
+            LeverClick.play()
+            invoke(self.functionCallBack,delay=self.duration)
+def test():
+    print("yes")
+Wall=Entity(model='quad',color=color.gray,z=player_controller.z,x=-10,scale_y=50,collider='box')
+puzzleBlockOne=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,y=.1,scale=.3,x=2,collider='box')
+PuzzleBlockTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=4,scale=.3,y=1.5)
+PuzzleBlockThreeEntity=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=10.5,scale=.3,y=1.5)
+MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black33,y=1.5,fromX=6,toX=10)
+Lever1=Interactable(x=10,functionCallBack=test,y=-1)
 
 app.run()
