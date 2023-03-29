@@ -107,12 +107,12 @@ window.title="Echoes in the Dark"
 app=Ursina()
 
 app.sfxManagerList[0].setVolume(volume)
-player_controller = PlatformerController2d(walk_speed=0,scale_y=.5,scale_x=.25, jump_height=2, x=3,model=None, y=20)
+player_controller = PlatformerController2d(walk_speed=0,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", y=20)
 
 PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=-5)
 camera.position=player_controller.position + (0,7,0)
 PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',fps=24,parent=scene,visible=False,scale=.5,z=-5)
-camera.add_script(SmoothFollow(target=PlayerAnimation, offset=[0,1,-30], speed=4))
+camera.add_script(SmoothFollow(target=player_controller, offset=[0,1,-30], speed=4))
 camera.orthographic = True
 camera.fov = 10
 
@@ -121,22 +121,22 @@ with open("GenerateBackground.py", "r") as f:
     exec(f.read())
 
 
-sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(30,30))
+sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(35,35))
 ground = Entity(model='quad', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5)
 
 InSettings=False
+
 def update():
-    PlayerAnimation.z=-5
-    PlayerAnimation.x=player_controller.x
-    PlayerAnimation.y=player_controller.y
-    PlayerAnimation2.z=-5
-    PlayerAnimation2.x=player_controller.x
-    PlayerAnimation2.y=player_controller.y
+    if player_controller.y<-1.1:
+        player_controller.y=-1.05
+    print(player_controller.position)
+    PlayerAnimation.position=player_controller.position
+    PlayerAnimation2.position=player_controller.position
     #print(InversedMode)
-    if InversedMode:
-        pma.player_movement(player_controller, 1.5, InSettings)
-    else:
-        pma.player_movement(player_controller, 3, InSettings)
+    if InversedMode and not InSettings:
+        pma.player_movement(player_controller, 1.5)
+    elif not InversedMode and not InSettings:
+        pma.player_movement(player_controller, 3)
 
 Timer=0
 InverseCooldown=False  
@@ -159,6 +159,11 @@ def input(key):
             InversedMode=False
         else:
             InversedMode=True
+    if key=='space' and player_controller.y<=-1:
+        player_controller.grounded=True
+        player_controller.air_time = 0
+        player_controller.jumps_left=1
+        player_controller.jump()
     if key=='a' or held_keys=='a' and not held_keys['d']:
         PlayerAnimation2.visible=True
         PlayerAnimation.visible=False
@@ -209,27 +214,42 @@ class MovingPlatform(Entity):
             self.hasCollider=False
         
 class Interactable(Entity):
-    def __init__(self,functionCallBack, **kwargs):
-        super().__init__(self,model='quad',z=player_controller.z,color=color.black, **kwargs)
+    def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
+        super().__init__(self,model='quad',z=player_controller.z+.1,color=color.black, **kwargs)
         self.scale=.1
-        self.functionCallBack = functionCallBack
+        self.functionCallBackOn = functionCallBackOn
+        self.functionCallBackOff = functionCallBackOff
         self.duration=0
+        self.TurnedOn=False
+
     def update(self):
-        pass
+        if self.TurnedOn:
+            self.texture='assets/textures/lever_on.png'
+        else:
+            self.texture='assets/textures/lever_off.png'
 
     def input(self, key):
         self.dist=distance(self,player_controller)
         if self.dist<.3 and key=='e':
-            destroy(self)
+            if self.TurnedOn:
+                self.TurnedOn=False
+                if self.functionCallBackOff!=None:
+                    invoke(self.functionCallBackOff,delay=self.duration)
+            else:
+                self.TurnedOn=True
+                if self.functionCallBackOn!=None:
+                    invoke(self.functionCallBackOn,delay=self.duration)
             LeverClick.play()
-            invoke(self.functionCallBack,delay=self.duration)
 def test():
     print("yes")
-Wall=Entity(model='quad',color=color.gray,z=player_controller.z,x=-10,scale_y=50,collider='box')
+
+def test2():
+    print("no")
+Wall=Entity(model='cube',color=color.gray,z=player_controller.z,x=-10,scale_y=50,collider='box')
 puzzleBlockOne=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,y=.1,scale=.3,x=2,collider='box')
 PuzzleBlockTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=4,scale=.3,y=1.5)
 PuzzleBlockThreeEntity=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=10.5,scale=.3,y=1.5)
 MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black33,y=1.5,fromX=6,toX=10)
-Lever1=Interactable(x=10,functionCallBack=test,y=-1)
+Lever1=Interactable(x=10,functionCallBackOn=test,functionCallBackOff=test2,y=-1)
 
 app.run()

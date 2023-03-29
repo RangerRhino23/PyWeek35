@@ -32,10 +32,10 @@ for x in np.arange(0.0, 100.0, ra.uniform(1.0, 3.0)):
     for y in np.arange(1.0, -5.0, ra.uniform(-3.0, -1.0)):
         if y>-1.005:
             y=ra.uniform(-1.005,-3)
-        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=1)
+        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=-1)
 
 for x in np.arange(0.0, -100.0, ra.uniform(-1.0, -3.0)):
     for y in np.arange(1.0, -5.0, ra.uniform(-3.0, -1.0)):
         if y>-1.005:
             y=ra.uniform(-1.005,-3)
-        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=1)
+        rock = Entity(model='quad', color=rock_color, scale=.1, y=y, x=x, z=-1)
