@@ -173,6 +173,7 @@ def input(key):
         PlayerAnimation.visible=True
     if key=='escape' and InSettings==False:
         InSettings=True
+        application.pause()
         with open("Settings.py", "r") as f:
             exec(f.read())
         

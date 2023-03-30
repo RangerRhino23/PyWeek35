@@ -157,6 +157,9 @@ def input(key):
         InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
+        application.pause()
+
+app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 
 ##############
 # BUILD AREA #
@@ -195,8 +198,8 @@ class MovingPlatform(Entity):
         
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
-        super().__init__(self,model='quad',z=player_controller.z+.1,color=color.black, **kwargs)
-        self.scale=1
+        super().__init__(self,model='quad',z=player_controller.z+.1, **kwargs)
+        self.scale=.2
         self.functionCallBackOn = functionCallBackOn
         self.functionCallBackOff = functionCallBackOff
         self.duration=0
@@ -221,6 +224,10 @@ class Interactable(Entity):
                     invoke(self.functionCallBackOn,delay=self.duration)
             LeverClick.play()
 
-app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
+
+def Pass():
+    pass
+
+#Interactable(functionCallBackOn=Pass,x=8,y=-.8)
 
 app.run()

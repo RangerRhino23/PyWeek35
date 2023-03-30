@@ -2,16 +2,39 @@ from ursina import *
 import random as ra
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 
-app=Ursina()
-player_controller = PlatformerController2d(scale_y=2, jump_height=4, x=3,model=None, y=20)
-camera.add_script(SmoothFollow(target=player_controller, offset=[0,1,-30], speed=4))
-PlayerAnimation=Animation('assets/textures/bat_gif.gif',parent=scene,scale=2,z=-5)
-camera.orthographic = True
-camera.fov = 10
+class Interactable(Entity):
+    def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
+        super().__init__(self,model='quad',z=0+.1, **kwargs)
+        self.scale=1
+        self.functionCallBackOn = functionCallBackOn
+        self.functionCallBackOff = functionCallBackOff
+        self.duration=0
+        self.TurnedOn=False
 
-def update():
-    PlayerAnimation.z=-5
-    PlayerAnimation.x=player_controller.x
-    PlayerAnimation.y=player_controller.y
+    def update(self):
+        if self.TurnedOn:
+            self.texture='assets/textures/lever_on.png'
+        else:
+            self.texture='assets/textures/lever_off.png'
+
+    def input(self, key):
+        if key=='e':
+            if self.TurnedOn:
+                self.TurnedOn=False
+                if self.functionCallBackOff!=None:
+                    invoke(self.functionCallBackOff,delay=self.duration)
+            else:
+                self.TurnedOn=True
+                if self.functionCallBackOn!=None:
+                    invoke(self.functionCallBackOn,delay=self.duration)
+            Audio("assets/audio/lever.ogg",auto_destroy=True,autoplay=True)
+
+app=Ursina()
+
+def Funct():
+    pass
+
+Interactable(functionCallBackOn=Funct)
+
 
 app.run()
