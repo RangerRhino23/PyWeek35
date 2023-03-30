@@ -20,6 +20,14 @@ RangerRhino23: <a href="https://github.com/RangerRhino23" target="_blank">Github
 
 ItsbaileyX3525: <a href="https://github.com/ItsbaileyX3525" target="_blank">Github</a>, <a href="mailto:baileyleah542@gmail.com" target="_blank">Email</a>, <a href="https://youtube.com/@itsbailey444" target="_blank">Youtube</a>, <a href="https://baileyswebsite.ddns.net" target="_blank">Website</a>, and Discord: Itsbailey X#5131
 
+## The game
+
+![Picture one](https://i.imgur.com/UNXxy6c.png)
+
+![Picture two](https://i.imgur.com/ucyIq4c.png)
+
+![Picture three](https://i.imgur.com/BFYZV2Q.png)
+
 
 ### Disclaimer.
 
