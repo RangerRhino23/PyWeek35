@@ -90,7 +90,7 @@ def StartGame():
         sys.exit()
     else:
         print_on_screen("Level 1 beat please await for code to load level 2",duration=3)
-
+        application.quit()
 
 with open("data.json", 'r') as f:
     data=json.load(f)

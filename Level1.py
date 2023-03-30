@@ -3,7 +3,6 @@ import assets.APIs.player_movement_api as pma
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 import json
 
-
 with open("data.json", 'r') as f:
     data=json.load(f)
 
@@ -14,9 +13,7 @@ with open("SettingsFunctions.py", "r") as f:
     exec(f.read())
 
 
-Level1Complete=data['Level1Completed']
 InversedMode=False
-
 def Inverse():
     inverse_paths = {}
     for i in range(1, 10):
@@ -81,18 +78,6 @@ def Inverse():
                     e.color=color.rgb(255,0,255)
                     e.collider=None
 
-if Level1Complete:
-    app=Ursina()
-
-    Text("Level 1 completed already!")
-    timer=0
-
-    def update():
-        global timer
-        timer+=time.dt
-        if timer>=5:
-            application.quit()
-    app.run()
 
 vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
@@ -115,7 +100,6 @@ PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',fps=24,parent=scene,vi
 camera.add_script(SmoothFollow(target=player_controller, offset=[0,1,-30], speed=4))
 camera.orthographic = True
 camera.fov = 10
-
 
 with open("GenerateBackground.py", "r") as f:
     exec(f.read())
@@ -149,11 +133,9 @@ def InverseTimer():
 
 Entity(update=InverseTimer)
 
-InverseUnlocked=False
-
 def input(key):
     global InSettings,InverseCooldown,InversedMode
-    if key=='w' and not InverseCooldown and not InSettings and InverseUnlocked:
+    if key=='w' and not InverseCooldown and not InSettings:
         Inverse()
         InverseCooldown=True
         if InversedMode:
@@ -175,10 +157,6 @@ def input(key):
         InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
-        
-app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autoplay=True,loop=True))
-app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
-PopSound=Audio('assets/audio/pop.ogg',autoplay=False,loop=False)
 
 ##############
 # BUILD AREA #
@@ -243,183 +221,6 @@ class Interactable(Entity):
                     invoke(self.functionCallBackOn,delay=self.duration)
             LeverClick.play()
 
-class TutorialBlock(Entity):
-    def __init__(self,action, **kwargs):
-        super().__init__(self, **kwargs)
-        self.action=action
-    def update(self):
-        dist=distance(PlayerAnimation,self)
-        if player_controller.y==.25 and dist<.4 and self.action==1:
-            destroy(TutorialText)
-            destroy(self)
-            TutorialScript4()
-        elif dist<.4 and self.action==2:
-            self.color=color.rgb(255,0,255)
-            destroy(self)
-            destroy(TutorialText)
-            TutorialScript12()
-        if self.action==2 and InversedMode:
-            self.color=color.rgb(255,0,255)
-        elif self.action==2 and not InversedMode:
-            self.color=color.black
-
-#MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black33,y=1.5,fromX=6,toX=10)
-#Lever1=Interactable(x=10,functionCallBackOn=test,functionCallBackOff=test2,y=-1)
-
-TutorialTimer=0
-TutorialAction1=False
-TutorialAction2=False
-TutorialAction3=False
-
-def TutorialTimerUpdate():
-    global TutorialTimer,TutorialAction1,TutorialAction2,TutorialText
-    if TutorialAction1:
-        TutorialTimer+=time.dt
-        if TutorialTimer>=4:
-            TutorialAction1=False
-            destroy(TutorialText)
-            TutorialTimer=0
-            TutorialScript2()
-
-def TutorialInputs(key):
-    global TutorialAction2,TutorialText,TutorialAction3
-    if TutorialAction2:
-        if key=='space':
-            TutorialAction2=False
-            invoke(TutorialScript3,delay=1)
-            destroy(TutorialText)
-            print_on_screen("Nice!",duration=1)
-    if TutorialAction3:
-        if key=='w':
-            destroy(TutorialText)
-            TutorialAction3=False
-            chance=random.randint(0,20)
-            if chance==20:
-                Audio('assets/audio/eggyaudio.ogg',autoplay=True,loop=False,auto_destroy=True)
-                Audio('assets/audio/eggyaudio2.ogg',autoplay=True,loop=False,auto_destroy=True)
-                Entity(parent=camera.ui,model='quad',texture='assets/textures/happyboi.jpg',scale=2)
-                Ambience1.stop()
-                s = Sequence(
-                    Wait(5),
-                    Func(application.quit))
-                s.start()
-            else:
-                invoke(TutorialScript7)
-
-Entity(update=TutorialTimerUpdate, input=TutorialInputs)
-
-"""
-The code would be much cleaner if I knew how to do sequences but I don't so
-this shall work for the time being.
-"""
-def TutorialScript1():
-    global TutorialAction1,TutorialText
-    TutorialText=Text("Welcome to the game.",scale=1.2,y=.3,x=-.11)
-    PopSound.play()
-    TutorialAction1=True
-
-def TutorialScript2():
-    global TutorialAction2,TutorialText
-    TutorialText=Text("To begin try jump with the spacebar.",scale=1.2,y=.3,x=-.14)
-    PopSound.play()
-    TutorialAction2=True
-
-def TutorialScript3():
-    global TutorialText
-    PopSound.play()
-    TutorialText=Text("Ok, try jump on that block over there.",scale=1.2,y=.3,x=-.14) 
-    puzzleBlockOne=TutorialBlock(action=1,model='quad',color=color.black,z=player_controller.z,y=.1,scale=.3,x=5,collider='box')
-
-def TutorialScript4():
-    global TutorialText
-    TutorialText=Text("Nicely Done!",scale=1.2,y=.3,x=-.1)
-    PopSound.play()
-    invoke(TutorialScript5,delay=1.5)
-
-def TutorialScript5():
-    global TutorialText
-    destroy(TutorialText)
-    TutorialText=Text("There a few abilities that you have in this game.",scale=1.2,y=.3,x=-.14)
-    destroy(TutorialText,delay=3)
-    PopSound.play()
-    invoke(TutorialScript6,delay=3)
-
-def TutorialScript6():
-    global TutorialText,TutorialAction3,InverseUnlocked
-    PopSound.play()
-    TutorialText=Text("Try clicking 'w' on your keyboard.",scale=1.2,y=.3,x=-.12)
-    InverseUnlocked=True
-    TutorialAction3=True
-
-def TutorialScript7():
-    global TutorialText
-    TutorialText=Text("This is called 'Shadow mode'",scale=1.2,y=.3,x=-.13)
-    PopSound.play()
-    destroy(TutorialText,delay=2)
-    invoke(TutorialScript8,delay=2)
-
-def TutorialScript8():
-    global TutorialText
-    TutorialText=Text("In shadow mode you move slower but you can see invisible blocks.",scale=1.2,y=.3,x=-.2)
-    destroy(TutorialText,delay=3)
-    invoke(TutorialScript9,delay=3)
-    PopSound.play()
-
-def TutorialScript9():
-    global TutorialText
-    TutorialText=Text("And... when in shadow mode you can't jump on invisible blocks.",scale=1.2,y=.3,x=-.15)
-    destroy(TutorialText,delay=3)
-    invoke(TutorialScript10,delay=3)
-    PopSound.play()
-
-def TutorialScript10():
-    global TutorialText
-    TutorialText=Text("You can tell if you cant jump on it by its colour.",scale=1.2,y=.3,x=-.13)
-    destroy(TutorialText, delay=3); invoke(TutorialScript11,delay=3)
-    PopSound.play()
-
-def TutorialScript11():
-    global TutorialText
-    if InversedMode:
-        TutorialText=Text("For example that block over there, try jump on it.",scale=1.2,y=.3,x=-.13)
-    else:
-        TutorialText=Text("Go into shadow mode and try jump on that block.",scale=1.2,y=.3,x=-.14)
-    puzzleblock=TutorialBlock(ID='Normal',action=2,model='quad',z=player_controller.z,y=.1,scale=.3,x=5,collider='box')
-    PopSound.play()
-
-def TutorialScript12():
-    global TutorialText
-    TutorialText=Text("See! Very cool, right?",scale=1.2,y=.3,x=-.15)
-    destroy(TutorialText,delay=2)
-    invoke(TutorialScript13,delay=2)
-    PopSound.play()
-
-def TutorialScript13():
-    global TutorialText
-    TutorialText=Text("Moving platforms, however, can still be walked on even in shadow mode.",scale=1.2,y=.3,x=-.25)
-    PopSound.play()
-    destroy(TutorialText,delay=4); invoke(TutorialScript14,delay=4)
-
-def TutorialScript14():
-    global TutorialText
-    TutorialText=Text("Ok, lets move onto the main game!",scale=1.2,y=.3,x=-.12)
-    PopSound.play()
-    invoke(FinishedTutorial,delay=3)
-
-def FinishedTutorial():
-    global TutorialText
-    destroy(TutorialText)
-    import subprocess
-    import sys
-    import os
-
-    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
-
-    file_path = os.path.join(current_dir, "Level1.py")
-
-    subprocess.Popen(["python", file_path])
-    sys.exit()
-
-TutorialScript1()
+app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 
 app.run()
