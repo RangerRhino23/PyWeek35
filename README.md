@@ -19,3 +19,8 @@ You can reach both developers by their socials:
 RangerRhino23: <a href="https://github.com/RangerRhino23" target="_blank">Github</a>, <a href="mailto:rangerrhino23@outlook.com" target="_blank">Email</a>, <a href="https://youtube.com/@RangerRhino23" target="_blank">Youtube</a>, and Discord: RangerRhino#4484
 
 ItsbaileyX3525: <a href="https://github.com/ItsbaileyX3525" target="_blank">Github</a>, <a href="mailto:baileyleah542@gmail.com" target="_blank">Email</a>, <a href="https://youtube.com/@itsbailey444" target="_blank">Youtube</a>, <a href="https://baileyswebsite.ddns.net" target="_blank">Website</a>, and Discord: Itsbailey X#5131
+
+
+### Disclaimer.
+
+The game in VS code and other IDE editors may show that various variables are undefined but rest assured they are defined but its just a visual glitch.
