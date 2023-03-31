@@ -14,7 +14,7 @@ with open("SettingsFunctions.py", "r") as f:
     exec(f.read())
 
 
-Level1Complete=data['Level1Completed']
+TutorialCompleted=data['TutorialCompleted']
 InversedMode=False
 
 def Inverse():
@@ -81,10 +81,10 @@ def Inverse():
                     e.color=color.rgb(255,0,255)
                     e.collider=None
 
-if Level1Complete:
+if TutorialCompleted:
     app=Ursina()
 
-    Text("Level 1 completed already!")
+    Text("Tutorial completed already! To play again chage data to false.",x=-.4)
     timer=0
 
     def update():
@@ -98,7 +98,6 @@ vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
-Level1Completed=data['Level1Completed']
 
 
 window.vsync=vsyncEnabled
@@ -385,6 +384,10 @@ def TutorialScript14():
 def FinishedTutorial():
     global TutorialText
     destroy(TutorialText)
+    TutorialCompleted = True
+    data['TutorialCompleted'] = TutorialCompleted
+    with open("data.json", "w") as f:
+        json.dump(data, f,indent=4)
     import subprocess
     import sys
     import os

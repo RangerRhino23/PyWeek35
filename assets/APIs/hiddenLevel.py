@@ -90,23 +90,11 @@ window.vsync=vsyncEnabled
 window.fullscreen=Fullscreen
 window.title="Echoes in the Dark"
 
-if Level1Completed:
-    app=Ursina()
-
-    Text("Level 1 completed already! To play again chage data to false.",x=-.4)
-    timer=0
-
-    def update():
-        global timer
-        timer+=time.dt
-        if timer>=5:
-            application.quit()
-    app.run()
 
 app=Ursina()
 time.sleep(1)
 camera.overlay.color = color.black
-logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro1.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro2.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
 logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
 camera.overlay.animate_color(color.clear, duration=1, delay=4)
 destroy(logo, delay=5)
@@ -118,7 +106,7 @@ def splash_input(key):
 logo.input = splash_input
 
 app.sfxManagerList[0].setVolume(volume)
-player_controller = PlatformerController2d(parent=scene,walk_speed=2,y=1,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", visible=False)
+player_controller = PlatformerController2d(parent=scene,walk_speed=2,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", visible=False)
 
 PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=0)
 camera.position=player_controller.position + (0,7,0)
@@ -146,6 +134,7 @@ def update():
         player_controller.walk_speed=2
     elif not InversedMode and not InSettings:
         player_controller.walk_speed=4
+
 Timer=0
 InverseCooldown=False  
 def InverseTimer():
@@ -156,13 +145,10 @@ def InverseTimer():
             InverseCooldown=False
             Timer=0
 
-EditorCamera()
 Entity(update=InverseTimer)
 
 def input(key):
     global InSettings,InverseCooldown,InversedMode
-    if key=='f':
-        print(player_controller.position)
     if key=='w' and not InverseCooldown and not InSettings:
         Inverse()
         InverseCooldown=True
@@ -210,7 +196,7 @@ class MovingPlatform(Entity):
         self.hasCollider=True
 
     def update(self):
-        if player_controller.intersects(self) and player_controller.y<=self.y+.1 and self.hasCollider:
+        if player_controller.intersects(self) and self.hasCollider:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
@@ -275,37 +261,6 @@ class Door(Entity):
         else:
             self.inviscollider.collider=None
 
-def DoorUnlock():
-    DoorForWall.locked=False
-
-def DoorLock():
-    DoorForWall.locked=True
-
-invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
-invisWall1=Entity(model='cube',color=color.clear,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
-DoorForWall=Door(locked=True,y=-.5,x=-2)
-#LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=5,y=-.7)
-blockOne=Entity(ID="Normal",model='quad',color=color.black,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
-blockTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=8,scale=.3,y=2)
-blockThree=Entity(ID="Normal",model='quad',color=color.black,z=player_controller.z,x=15,scale=.3,y=2.1,collider='box')
-ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=20,x=26,y=2.5)
-MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=2,fromX=10,toX=14)
-
-def FinishedLevel1():
-    Level1Completed = True
-    data['Level1Completed'] = Level1Completed
-    with open("data.json", "w") as f:
-        json.dump(data, f,indent=4)
-    import subprocess
-    import sys
-    import os
-
-    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
-
-    file_path = os.path.join(current_dir, "Level2.py")
-
-    subprocess.Popen(["python", file_path])
-    sys.exit()
 
 
 app.run()
