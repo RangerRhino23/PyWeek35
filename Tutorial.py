@@ -107,7 +107,7 @@ window.title="Echoes in the Dark"
 app=Ursina()
 
 app.sfxManagerList[0].setVolume(volume)
-player_controller = PlatformerController2d(walk_speed=0,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", y=20, collider='box', visible=False)
+player_controller = PlatformerController2d(walk_speed=0,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", collider='box', visible=False)
 
 PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=0)
 camera.position=player_controller.position + (0,7,0)
@@ -133,9 +133,9 @@ def update():
     PlayerAnimation2.position=player_controller.position+(0,0.2,0)
     #print(InversedMode)
     if InversedMode and not InSettings:
-        pma.player_movement(player_controller, 1.5)
+        player_controller.walk_speed=2
     elif not InversedMode and not InSettings:
-        pma.player_movement(player_controller, 3)
+        player_controller.walk_speed=4
 
 Timer=0
 InverseCooldown=False  
@@ -216,34 +216,6 @@ class MovingPlatform(Entity):
             self.collider=None
             self.hasCollider=False
         
-class Interactable(Entity):
-    def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
-        super().__init__(self,model='quad',z=player_controller.z+.1,color=color.black, **kwargs)
-        self.scale=1
-        self.functionCallBackOn = functionCallBackOn
-        self.functionCallBackOff = functionCallBackOff
-        self.duration=0
-        self.TurnedOn=False
-
-    def update(self):
-        if self.TurnedOn:
-            self.texture='assets/textures/lever_on.png'
-        else:
-            self.texture='assets/textures/lever_off.png'
-
-    def input(self, key):
-        self.dist=distance(self,player_controller)
-        if self.dist<.3 and key=='e':
-            if self.TurnedOn:
-                self.TurnedOn=False
-                if self.functionCallBackOff!=None:
-                    invoke(self.functionCallBackOff,delay=self.duration)
-            else:
-                self.TurnedOn=True
-                if self.functionCallBackOn!=None:
-                    invoke(self.functionCallBackOn,delay=self.duration)
-            LeverClick.play()
-
 class TutorialBlock(Entity):
     def __init__(self,action, **kwargs):
         super().__init__(self, **kwargs)
@@ -266,6 +238,9 @@ class TutorialBlock(Entity):
 
 #MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black33,y=1.5,fromX=6,toX=10)
 #Lever1=Interactable(x=10,functionCallBackOn=test,functionCallBackOff=test2,y=-1)
+invisWall=Entity(model='cube',color=color.clear,x=-4,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
+invisWall1=Entity(model='cube',color=color.clear,x=10,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
+
 
 TutorialTimer=0
 TutorialAction1=False
@@ -294,7 +269,7 @@ def TutorialInputs(key):
         if key=='w':
             destroy(TutorialText)
             TutorialAction3=False
-            chance=random.randint(0,20)
+            chance=20
             if chance==20:
                 Audio('assets/audio/eggyaudio.ogg',autoplay=True,loop=False,auto_destroy=True)
                 Audio('assets/audio/eggyaudio2.ogg',autoplay=True,loop=False,auto_destroy=True)

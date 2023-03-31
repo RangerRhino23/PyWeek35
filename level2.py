@@ -94,7 +94,7 @@ window.title="Echoes in the Dark"
 app=Ursina()
 
 camera.overlay.color = color.black
-logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro1.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro2.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
 logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
 camera.overlay.animate_color(color.clear, duration=1, delay=4)
 destroy(logo, delay=5)
@@ -134,6 +134,7 @@ def update():
         player_controller.walk_speed=2
     elif not InversedMode and not InSettings:
         player_controller.walk_speed=4
+
 Timer=0
 InverseCooldown=False  
 def InverseTimer():
@@ -144,7 +145,6 @@ def InverseTimer():
             InverseCooldown=False
             Timer=0
 
-EditorCamera()
 Entity(update=InverseTimer)
 
 def input(key):
@@ -260,17 +260,5 @@ class Door(Entity):
             self.inviscollider.collider='box'
         else:
             self.inviscollider.collider=None
-
-def DoorUnlock():
-    DoorForWall.locked=False
-
-def DoorLock():
-    DoorForWall.locked=True
-
-invisWall=Entity(model='cube',color=color.clear,x=-15,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
-invisWall1=Entity(model='cube',color=color.clear,x=15,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
-DoorForWall=Door(locked=True,y=-.5,x=-2)
-LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=5,y=-.7)
-#Interactable(functionCallBackOn=Pass,x=8,y=-.8)
 
 app.run()
