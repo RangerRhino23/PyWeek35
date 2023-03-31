@@ -269,7 +269,7 @@ def TutorialInputs(key):
         if key=='w':
             destroy(TutorialText)
             TutorialAction3=False
-            chance=20
+            chance=random.randint(0,20)
             if chance==20:
                 Audio('assets/audio/eggyaudio.ogg',autoplay=True,loop=False,auto_destroy=True)
                 Audio('assets/audio/eggyaudio2.ogg',autoplay=True,loop=False,auto_destroy=True)

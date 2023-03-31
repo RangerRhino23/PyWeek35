@@ -261,4 +261,6 @@ class Door(Entity):
         else:
             self.inviscollider.collider=None
 
+
+
 app.run()
