@@ -122,13 +122,13 @@ with open("GenerateBackground.py", "r") as f:
 
 
 sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(35,35))
-ground = Entity(model='quad', color=color.dark_gray,origin_y=.1 ,scale=(1000, 10, 1), collider='box', y=-5, z=-1)
+ground = Entity(model='quad', color=color.dark_gray,scale=(1000, 10, 20), collider='box', y=-6, z=player_controller.z+.1)
 
 InSettings=False
 
 def update():
-    if player_controller.y<-1.1:
-        player_controller.y=-1.05
+    if player_controller.y<-1.0:
+        player_controller.y=-1
     PlayerAnimation.position=player_controller.position+(0,0.2,0)
     PlayerAnimation2.position=player_controller.position+(0,0.2,0)
     #print(InversedMode)
