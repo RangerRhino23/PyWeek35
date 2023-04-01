@@ -386,7 +386,7 @@ blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controlle
 movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=10)
 blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=8,collider='box')
 blockSeven=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=11,scale=.3,y=8,collider='box')
-laserBeamTwo=LaserBeam(ID='Inversed',x=10.5,y=9,cooldown_speed=1,height=6)
+laserBeamTwo=LaserBeam(ID='Normal',x=10.5,y=9,cooldown_speed=1,height=6)
 blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=10,scale=.3,y=8,collider='box')
 groundOne=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=7,y=8,collider='box')
 LeverForDoorOne=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=6,y=8.5)
