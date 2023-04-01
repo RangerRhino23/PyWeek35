@@ -336,7 +336,6 @@ class LaserBeam(Entity):
             self.color = color.red
         elif self.id == 'Inversed':
             self.color = rgb(255,0,255)
-
 class Door(Entity):
     def __init__(self,locked, **kwargs):
         super().__init__(self, **kwargs)
