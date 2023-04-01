@@ -382,7 +382,8 @@ def FinishedLevel4():
     data['Level4Completed'] = Level4Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
-        Audio('assets/audio/levelwin',autoplay=True,loop=False)
+    level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
+    level_completed.play()
     camera.overlay.color = color.black
     egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
     invoke(nextpart,delay=3.2)
