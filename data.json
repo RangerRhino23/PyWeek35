@@ -4,5 +4,6 @@
     "MasterVolume": 100,
     "TutorialCompleted": false,
     "Level1Completed": false,
-    "Level2Completed": false
+    "Level2Completed": false,
+    "Level3Completed": false
 }

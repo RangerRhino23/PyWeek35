@@ -84,7 +84,7 @@ vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
-Level2Completed=data['Level2Completed']
+Level3Completed=data['Level3Completed']
 
 
 window.vsync=vsyncEnabled
@@ -95,7 +95,7 @@ window.title="Echoes in the Dark"
 app=Ursina()
 time.sleep(1)
 camera.overlay.color = color.black
-logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro2.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro3.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
 logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
 camera.overlay.animate_color(color.clear, duration=1, delay=4)
 destroy(logo, delay=5)
@@ -172,6 +172,8 @@ def input(key):
         InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
+
+        player_controller.position = blockFour.position + (0,1,0)
 
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
@@ -264,7 +266,7 @@ class Door(Entity):
             self.inviscollider.collider=None
             self.texture='assets/textures/doorOpened.png'
             if dist<.5:
-                FinishedLevel2()
+                FinishedLevel3()
 
 def DoorUnlock():
     DoorForWall.locked=False
@@ -285,9 +287,9 @@ blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controlle
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
 
-def FinishedLevel2():
-    Level1Completed = True
-    data['Level2Completed'] = Level1Completed
+def FinishedLevel3():
+    Level3Completed = True
+    data['Level3Completed'] = Level3Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
     import subprocess
