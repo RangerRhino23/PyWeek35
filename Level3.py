@@ -13,7 +13,7 @@ with open("Async tasks.py", "r") as f:
 with open("SettingsFunctions.py", "r") as f:
     exec(f.read())
 
-
+Level3Completed=data['Level3Completed']
 InversedMode=False
 def Inverse():
     inverse_paths = {}
@@ -79,12 +79,24 @@ def Inverse():
                     e.color=color.rgb(255,0,255)
                     e.collider=None
 
+if Level3Completed:
+    app=Ursina()
+
+    Text("Level 2 completed already! To play again chage data to false. Moving on to Level 3",x=-.4)
+    timer=0
+
+    def update():
+        global timer
+        timer+=time.dt
+        if timer>=5:
+            nextpart()
+    app.run()
 
 vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
-Level3Completed=data['Level3Completed']
+
 
 
 window.vsync=vsyncEnabled

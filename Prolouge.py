@@ -93,14 +93,14 @@ window.title="Echoes in the Dark"
 if Level1Completed:
     app=Ursina()
 
-    Text("Level 1 completed already! To play again chage data to false.",x=-.4)
+    Text("Prolouge completed already! To play again chage data to false. Moving on to Level 1",x=-.4)
     timer=0
 
     def update():
         global timer
         timer+=time.dt
         if timer>=5:
-            application.quit()
+            nextpart()
     app.run()
 
 app=Ursina()
