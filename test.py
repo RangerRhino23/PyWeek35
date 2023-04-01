@@ -2,33 +2,36 @@ from ursina import *
 import random as ra
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 
-class Interactable(Entity):
-    def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
-        super().__init__(self,model='quad',z=0+.1, **kwargs)
-        self.scale=1
-        self.functionCallBackOn = functionCallBackOn
-        self.functionCallBackOff = functionCallBackOff
-        self.duration=0
-        self.TurnedOn=False
+class MovingPlatform(Entity):
+    def init(self,ID, fromY, toY,x=0,y=0, kwargs):
+        super().init(self,model='quad', parent=scene,x=x,y=y, **kwargs)
+        self.fromY=fromY
+        self.toY=toY
+        self.ID=ID
+        self.collider='box'
+        self.scale_x=.8
+        self.scale_y=.2
+        self.color=color.black33
+        self.direction = Vec3(0, 1, 0)
+        self.speed = 2
+        self.x=x
+        self.y=fromY # modified to set the starting position in the y-axis
+        self.hasCollider=True
 
     def update(self):
-        if self.TurnedOn:
-            self.texture='assets/textures/lever_on.png'
+        if player_controller.intersects(self) and self.hasCollider:
+            player_controller.y=self.y
+        self.position += self.direction * self.speed * time.dt
+        if self.position.y > self.toY:
+            self.direction = Vec3(0, -1, 0)
+        elif self.position.y < self.fromY:
+            self.direction = Vec3(0, 1, 0)
+        if self.ID=='Normal':
+            self.collider='box'
+            self.hasCollider=True
         else:
-            self.texture='assets/textures/lever_off.png'
-
-    def input(self, key):
-        if key=='e':
-            if self.TurnedOn:
-                self.TurnedOn=False
-                if self.functionCallBackOff!=None:
-                    invoke(self.functionCallBackOff,delay=self.duration)
-            else:
-                self.TurnedOn=True
-                if self.functionCallBackOn!=None:
-                    invoke(self.functionCallBackOn,delay=self.duration)
-            Audio("assets/audio/lever.ogg",auto_destroy=True,autoplay=True)
-
+            self.collider=None
+            self.hasCollider=False
 app=Ursina()
 
 def Funct():
