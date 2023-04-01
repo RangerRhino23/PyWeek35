@@ -3,6 +3,7 @@ from ursina import *
 app = Ursina()
 
 # create scrolling text
+Audio('assets/audio/turi ip ip ip.ogg',autoplay=True,loop=True)
 scrolled_text = []
 scroll_text1 = Text(text='This marks the end of the game.', font='assets/misc/Starjedi.ttf', origin=(0,0), y=-.8, scale=2)
 scrolled_text.append(scroll_text1)

@@ -95,13 +95,8 @@ if Level4Completed:
     app=Ursina()
 
     Text("Level 3 completed already! To play again chage data to false. Moving on the final level",x=-.4)
-    timer=0
 
-    def update():
-        global timer
-        timer+=time.dt
-        if timer>=5:
-            nextpart()
+    nextpart()
     app.run()
 
 vsyncEnabled=data['vsyncEnabled']

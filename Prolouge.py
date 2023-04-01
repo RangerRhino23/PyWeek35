@@ -106,11 +106,7 @@ if Level1Completed:
     Text("Prolouge completed already! To play again chage data to false. Moving on to Level 1",x=-.4)
     timer=0
 
-    def update():
-        global timer
-        timer+=time.dt
-        if timer>=5:
-            nextpart()
+    nextpart()
     app.run()
 
 app=Ursina()
