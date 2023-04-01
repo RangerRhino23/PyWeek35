@@ -78,6 +78,17 @@ def Inverse():
                 if e.ID=="Inversed":
                     e.color=color.rgb(255,0,255)
                     e.collider=None
+def nextpart():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "level4.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
 
 if Level3Completed:
     app=Ursina()
@@ -197,7 +208,7 @@ class MovingPlatform(Entity):
         super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y, **kwargs)
         self.fromX=fromX
         self.toX=toX
-        self.ID=ID
+        self.id=ID
         self.collider='box'
         self.scale_x=.8
         self.scale_y=.2
@@ -206,53 +217,77 @@ class MovingPlatform(Entity):
         self.speed = 2
         self.x=fromX
         self.y=y
-        self.hasCollider=True
+        self.Timer=0
 
     def update(self):
-        if player_controller.intersects(self) and self.hasCollider:
+        if player_controller.intersects(self) and self.collider!=None:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
             self.direction = Vec3(-1, 0, 0)
         elif self.position.x < self.fromX:
             self.direction = Vec3(1, 0, 0)
-        if self.ID=='Normal':
+        if self.id=='Normal':
             self.collider='box'
-            self.hasCollider=True
+            self.color=color.black33
         else:
             self.collider=None
-            self.hasCollider=False
+            self.color=color.rgb(255,0,255)
+        if self.Timer>=.00001:
+            self.Timer+=time.dt
+            if self.Timer>=1:
+                self.Timer=0
+
+    def input(self, key):
+        if key=='w' and self.Timer==0:
+            self.Timer=.00001
+            if self.id=='Normal':
+                self.id='Inversed'
+            elif self.id=='Inversed':
+                self.id='Normal'
 
 class MovingPlatform_Vertical(Entity):
     def __init__(self,ID, fromY, toY,x=0,y=0, **kwargs):
         super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y, **kwargs)
         self.fromY=fromY
         self.toY=toY
-        self.ID=ID
+        self.id=ID
         self.collider='box'
         self.scale_x=.8
         self.scale_y=.2
         self.color=color.black33
         self.direction = Vec3(0, 1, 0) # modified to move up and down
         self.speed = 2
+        self.Timer=0
         self.x=x
         self.y=fromY # modified to set the starting position in the y-axis
-        self.hasCollider=True
 
     def update(self):
-        if player_controller.intersects(self) and self.hasCollider:
+        if player_controller.intersects(self) and self.collider!=None:
             player_controller.y=self.y+.1 # modified to update player's y-axis position
         self.position += self.direction * self.speed * time.dt
         if self.position.y > self.toY: # modified to check against the top boundary
             self.direction = Vec3(0, -1, 0)
         elif self.position.y < self.fromY: # modified to check against the bottom boundary
             self.direction = Vec3(0, 1, 0)
-        if self.ID=='Normal':
+        if self.id=='Normal':
             self.collider='box'
-            self.hasCollider=True
+            self.color=color.black33
         else:
             self.collider=None
-            self.hasCollider=False
+            self.color=color.rgb(255,0,255)
+        if self.Timer>=.00001:
+            self.Timer+=time.dt
+            if self.Timer>=1:
+                self.Timer=0
+
+    def input(self, key):
+        if key=='w' and self.Timer==0:
+            self.Timer=.00001
+            if self.id=='Normal':
+                self.id='Inversed'
+            elif self.id=='Inversed':
+                self.id='Normal'
 
 
 class Interactable(Entity):
@@ -338,16 +373,5 @@ def FinishedLevel3():
     camera.overlay.color = color.black
     egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
     invoke(nextpart,delay=3.2)
-def nextpart():
-    import subprocess
-    import sys
-    import os
-
-    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
-
-    file_path = os.path.join(current_dir, "level4.py")
-
-    subprocess.Popen(["python", file_path])
-    sys.exit()
 
 app.run()

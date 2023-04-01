@@ -12,6 +12,17 @@ with open("Async tasks.py", "r") as f:
 
 with open("SettingsFunctions.py", "r") as f:
     exec(f.read())
+def nextpart():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "Finished.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
 
 Level5Completed=data['Level5Completed']
 InversedMode=False
@@ -430,16 +441,5 @@ def FinishedLevel5():
     camera.overlay.color = color.black
     egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
     invoke(nextpart,delay=3.2)
-def nextpart():
-    import subprocess
-    import sys
-    import os
-
-    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
-
-    file_path = os.path.join(current_dir, "Finished.py")
-
-    subprocess.Popen(["python", file_path])
-    sys.exit()
 
 app.run()
