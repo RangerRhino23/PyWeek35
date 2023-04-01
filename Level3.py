@@ -279,6 +279,9 @@ invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_c
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
+blockTwo=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=7,scale=.3,y=1,collider='box')
+MovingPlatformOne=MovingPlatform(ID='Inversed',color=color.blue,y=2,fromX=8,toX=12)
+
 
 #MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
 #ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
