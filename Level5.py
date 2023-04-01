@@ -350,7 +350,13 @@ invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_contr
 invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
-laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
+blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=0,collider='box')
+blockTwo=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=7,scale=.3,y=2,collider='box')
+blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=9,scale=.3,y=4,collider='box')
+movingPlatformone=MovingPlatform(ID='Inversed',color=color.black66,y=4,fromX=10,toX=14)
+
+
+#laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
 #MovingPlatformOne=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=4,fromY=-1,toY=4)
 #blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=5,collider='box')
 #ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
