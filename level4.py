@@ -210,7 +210,39 @@ class MovingPlatform(Entity):
         else:
             self.collider=None
             self.hasCollider=False
-        
+
+class MovingPlatform_Vertical(Entity):
+    def __init__(self,ID, fromY, toY,x=0,y=0, **kwargs):
+        super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y, **kwargs)
+        self.fromY=fromY
+        self.toY=toY
+        self.ID=ID
+        self.collider='box'
+        self.scale_x=.8
+        self.scale_y=.2
+        self.color=color.black33
+        self.direction = Vec3(0, 1, 0) # modified to move up and down
+        self.speed = 2
+        self.x=x
+        self.y=fromY # modified to set the starting position in the y-axis
+        self.hasCollider=True
+
+    def update(self):
+        if player_controller.intersects(self) and self.hasCollider:
+            player_controller.y=self.y+.1 # modified to update player's y-axis position
+        self.position += self.direction * self.speed * time.dt
+        if self.position.y > self.toY: # modified to check against the top boundary
+            self.direction = Vec3(0, -1, 0)
+        elif self.position.y < self.fromY: # modified to check against the bottom boundary
+            self.direction = Vec3(0, 1, 0)
+        if self.ID=='Normal':
+            self.collider='box'
+            self.hasCollider=True
+        else:
+            self.collider=None
+            self.hasCollider=False
+
+
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
         super().__init__(self,model='quad', **kwargs)
@@ -276,8 +308,16 @@ invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_contr
 invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
-MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
-ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
+MovingPlatformOne=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=4,fromY=-1,toY=4)
+blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=5,collider='box')
+MovingPlatformTwo=MovingPlatform(ID='Normal',color=color.black66,y=5,fromX=6,toX=10)
+blockTwo=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=11,scale=.3,y=6,collider='box')
+blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=12,scale=.3,y=6,collider='box')
+blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=14,scale=.3,y=6,collider='box')
+blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
+
+#MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
+#ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
 
 def FinishedLevel4():
