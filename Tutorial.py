@@ -397,8 +397,8 @@ def TutorialScript14():
     invoke(FinishedTutorial,delay=3)
 
 def FinishedTutorial():
-    Level1Completed = True
-    data['Level1Completed'] = Level1Completed
+    TutorialLevelCompleted = True
+    data['TutorialLevelCompleted'] = TutorialLevelCompleted
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
         Audio('assets/audio/levelwin',autoplay=True,loop=False)
