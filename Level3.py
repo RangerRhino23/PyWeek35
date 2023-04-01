@@ -311,13 +311,12 @@ invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_co
 DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
 blockTwo=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=7,scale=.3,y=2,collider='box')
-MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=2,fromX=8,toX=12)
+MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=2,fromX=8,toX=12)
 blockThree=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=2,collider='box')
-
-#MovingPlatformTwo=MovingPlatform_Vertical(ID='Normal',color=color.black66,fromY=-1,toY=4, x=5)
-#MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
-#ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
-#LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
+MovingPlatformTwo=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=14,fromY=3,toY=6)
+blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
+ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=6,collider='box')
+LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=6.5)
 
 def FinishedLevel3():
     Level3Completed = True
