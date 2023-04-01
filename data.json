@@ -7,5 +7,6 @@
     "Level2Completed": false,
     "Level3Completed": false,
     "Level4Completed": false,
-    "Level5Completed": false
+    "Level5Completed": false,
+    "TutorialLevelCompleted": true
 }
