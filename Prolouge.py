@@ -259,9 +259,9 @@ class Door(Entity):
         self.locked=locked
         self.model='quad'
         self.collider=None
-        self.scale_y=.8
+        self.scale_y= 1
         self.z=player_controller.z+.1
-        self.scale_x=.4
+        self.scale_x= 0.5
         self.texture='assets/textures/doorClosed.png'
         self.inviscollider=Entity(model='quad',color=color.clear,scale_y=4,scale_z=2,scale_x=.4)
         self.inviscollider.position=self.position
