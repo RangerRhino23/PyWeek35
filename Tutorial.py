@@ -81,14 +81,14 @@ def Inverse():
 if TutorialCompleted:
     app=Ursina()
 
-    Text("Tutorial completed already! To play again chage data to false.",x=-.4)
+    Text("Tutorial completed already! To play again chage data to false. Moving on to Level 2",x=-.4)
     timer=0
 
     def update():
         global timer
         timer+=time.dt
         if timer>=5:
-            application.quit()
+            FinishedTutorial()
     app.run()
 
 vsyncEnabled=data['vsyncEnabled']
@@ -403,7 +403,7 @@ def nextpart():
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "level2.py")
+    file_path = os.path.join(current_dir, "Level2.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()
