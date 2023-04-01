@@ -95,7 +95,7 @@ window.title="Echoes in the Dark"
 app=Ursina()
 time.sleep(1)
 camera.overlay.color = color.black
-logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro2.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro4.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
 logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
 camera.overlay.animate_color(color.clear, duration=1, delay=4)
 destroy(logo, delay=5)
@@ -315,16 +315,19 @@ blockTwo=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controll
 blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=12,scale=.3,y=6,collider='box')
 blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=14,scale=.3,y=6,collider='box')
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
-
-#MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
-#ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
+ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
 
-def FinishedLevel4():
+def FinishedLevel5():
     Level4Completed = True
     data['Level4Completed'] = Level4Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
+        Audio('assets/audio/levelwin',autoplay=True,loop=False)
+    camera.overlay.color = color.black
+    egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
+    invoke(nextpart,delay=3.2)
+def nextpart():
     import subprocess
     import sys
     import os
