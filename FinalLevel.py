@@ -171,13 +171,6 @@ def input(key):
         InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
-    ###TESTING###
-    if key == 'g':
-        player_controller.position = LeverForDoorOne.position + (0,2,0)
-    if key == 'f':
-        player_controller.position = LeverForDoorTwo.position + (0,2,0)
-    if key == 'h':
-        player_controller.position = LeverForDoorThree.position + (0,2,0)
 
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
