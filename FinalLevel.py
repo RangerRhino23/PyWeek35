@@ -354,12 +354,18 @@ class Door(Entity):
             self.texture='assets/textures/doorOpened.png'
             if dist<.5:
                 FinishedLevel5()
-
+leversPulled=0
 def DoorUnlock():
-    DoorForWall.locked=False
+    global leversPulled
+    leversPulled+=1
+    if leversPulled==3:
+        DoorForWall.locked=False
 
 def DoorLock():
-    DoorForWall.locked=True
+    global leversPulled
+    leversPulled-=1
+    if leversPulled<3:
+        DoorForWall.locked=True
 
 invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
