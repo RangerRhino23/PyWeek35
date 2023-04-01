@@ -136,7 +136,6 @@ def update():
         player_controller.y=-1
     PlayerAnimation.position=player_controller.position+(0,0.2,0)
     PlayerAnimation2.position=player_controller.position+(0,0.2,0)
-    #print(InversedMode)
     if InversedMode and not InSettings:
         player_controller.walk_speed=2
     elif not InversedMode and not InSettings:
@@ -202,8 +201,6 @@ class MovingPlatform(Entity):
         self.y=y
 
     def update(self):
-        print(self.collider)
-        print(self.ID)
         if player_controller.intersects(self) and self.collider!=None:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
@@ -307,10 +304,8 @@ class LaserBeam(Entity):
             self.cooldown = 0
             if self.visible:
                 self.visible = False
-                print('off')
             elif not self.visible:
                 self.visible = True
-                print('on')
         if player_controller.intersects(self):
             player_controller.position=Vec3(defaultPlayerPosition)
         if self.visible:
