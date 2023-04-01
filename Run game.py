@@ -123,7 +123,7 @@ app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="AmbientSound1",a
 
 def load_func():
     camera.overlay.color = color.black
-    logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/menu_picture.jpg', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+    logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/menu_picture.jpg', world_z=camera.overlay.z-1, scale_y=.095,scale_x=.08, color=color.clear)
     logo.animate_color(color.white, duration=2, delay=3, curve=curve.out_quint_boomerang)
     camera.overlay.animate_color(color.clear, duration=1, delay=6)
     destroy(logo, delay=5)
