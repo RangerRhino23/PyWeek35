@@ -295,8 +295,8 @@ class LaserBeam(Entity):
         self.visible = True
 
     def update(self):
-        self.cooldown = self.cooldown + 1
-        if self.cooldown == 60:
+        self.cooldown += time.dt
+        if self.cooldown >= 1.1:
             self.cooldown = 0
             if self.visible:
                 self.visible = False
