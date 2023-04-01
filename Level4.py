@@ -326,7 +326,7 @@ blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controll
 MovingPlatformTwo=MovingPlatform(ID='Normal',color=color.black66,y=5,fromX=6,toX=10)
 blockTwo=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=11,scale=.3,y=6)
 blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=12,scale=.3,y=6,collider='box')
-blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=14,scale=.3,y=6)
+blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=13.5,scale=.3,y=6)
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
