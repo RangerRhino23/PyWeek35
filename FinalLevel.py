@@ -173,7 +173,11 @@ def input(key):
             exec(f.read())
     ###TESTING###
     if key == 'g':
-        player_controller.position = movingPlatformOne.position
+        player_controller.position = LeverForDoorOne.position + (0,2,0)
+    if key == 'f':
+        player_controller.position = LeverForDoorTwo.position + (0,2,0)
+    if key == 'h':
+        player_controller.position = LeverForDoorThree.position + (0,2,0)
 
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
@@ -383,14 +387,28 @@ laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4,cooldown_speed=1,height=4)
 blockFour=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=8,scale=.3,y=2,collider='box')
 movingPlatformOne=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=9,toX=12)
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=4,collider='box')
-movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=10)
+movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=14)
 blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=8,collider='box')
-blockSeven=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=11,scale=.3,y=8,collider='box')
-laserBeamTwo=LaserBeam(ID='Normal',x=10.5,y=9,cooldown_speed=1,height=6)
-blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=10,scale=.3,y=8,collider='box')
-groundOne=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=7,y=8,collider='box')
-LeverForDoorOne=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=6,y=8.5)
-#blockSeven=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
+blockSeven=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=12,scale=.3,y=8,collider='box')
+laserBeamTwo=LaserBeam(ID='Normal',x=11.5,y=9,cooldown_speed=1,height=6)
+blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=11,scale=.3,y=8,collider='box')
+groundOne=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=8,y=8,collider='box')
+LeverForDoorOne=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=7,y=8.5)
+blockNine=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
+blockTen=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=16,scale=.3,y=6,collider='box')
+movingPlatformThree=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=17,fromY=6,toY=10)
+blockEleven=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=18,scale=.3,y=10,collider='box')
+laserBeamThree=LaserBeam(ID='Normal',x=15.5,y=9,cooldown_speed=1,height=6)
+blockTwelve=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=19,scale=.3,y=10,collider='box')
+laserBeamFour=LaserBeam(ID='Normal',x=19.5,y=9,cooldown_speed=1,height=6)
+groundTwo=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=22,y=10,collider='box')
+LeverForDoorTwo=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=21,y=10.5)
+blockThirteen=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=12,collider='box')
+blockSeven=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=12,scale=.3,y=12,collider='box')
+laserBeamTwo=LaserBeam(ID='Normal',x=11.5,y=13,cooldown_speed=1,height=6)
+blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=11,scale=.3,y=12,collider='box')
+groundThree=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=8,y=12,collider='box')
+LeverForDoorThree=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=7,y=12.5)
 
 
 #laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
