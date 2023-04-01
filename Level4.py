@@ -286,22 +286,6 @@ class MovingPlatform_Vertical(Entity):
                 self.id='Normal'
 
 
-    def update(self):
-        if player_controller.intersects(self) and self.hasCollider:
-            player_controller.y=self.y+.1 # modified to update player's y-axis position
-        self.position += self.direction * self.speed * time.dt
-        if self.position.y > self.toY: # modified to check against the top boundary
-            self.direction = Vec3(0, -1, 0)
-        elif self.position.y < self.fromY: # modified to check against the bottom boundary
-            self.direction = Vec3(0, 1, 0)
-        if self.id=='Normal':
-            self.collider='box'
-            self.hasCollider=True
-        else:
-            self.collider=None
-            self.hasCollider=False
-
-
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
         super().__init__(self,model='quad', **kwargs)
