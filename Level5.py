@@ -73,17 +73,11 @@ def Inverse():
         else:
             if hasattr(e, "ID"):
                 if e.ID=="Normal":
-                    if e.name=='LaserBeam':
-                        e.color=color.pink
-                    else:
-                        e.color=color.black33
-                        e.collider='box'
+                    e.color=color.black33
+                    e.collider='box'
                 if e.ID=="Inversed":
-                    if e.name=='LaserBeam':
-                        e.color=color.red
-                    else:
-                        e.color=color.rgb(255,0,255)
-                        e.collider=None
+                    e.color=color.rgb(255,0,255)
+                    e.collider=None
 
 
 vsyncEnabled=data['vsyncEnabled']
@@ -313,6 +307,10 @@ class LaserBeam(Entity):
             self.biggusCollidus.collider='box'
         else:
             self.biggusCollidus.collider=None
+        if self.ID == 'Normal':
+            self.color = color.red
+        elif self.ID == 'Inversed':
+            self.color = rgb(255,0,255)
 
 class Door(Entity):
     def __init__(self,locked, **kwargs):
