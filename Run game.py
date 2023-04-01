@@ -1,6 +1,79 @@
 from ursina import *
 import json
 
+def StartTutorial():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "Tutorial.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
+
+def StartProlouge():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "Prolouge.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
+
+def StartLevel2():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "Level2.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
+
+def StartLevel3():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "Level3.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
+
+def StartLevel4():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "Level4.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
+
+def StartEnd():
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "FinalLevel.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
+
+
 async def LoadAudio(path, name=None,autoplay=False,loop=False): #Smoothly loads audio files
     global audioname
     audioname = loader.loadSfx(path)
@@ -54,8 +127,8 @@ def ChangeScreen():
             json.dump(data, f, indent=4)
 
 def SettingsMenu():
-    global VsyncSetting,volume_slider,volume,FullscreenSetting
-    MainMenuStart.disabled=True; MainMenuStart.visible=False
+    global VsyncSetting,volume_slider,volume,FullscreenSetting, MainMenuSelector
+    MainMenuStart.disabled=True; MainMenuStart.visible=False; MainMenuSelector.disabled=True; MainMenuSelector.visible=False
     SettingsMusic.play(); AmbientSound1.stop()
     MainMenuSettings.on_click=SettingsMenuReturn; MainMenuSettings.text='Return'; MainMenuSettings.y=-.3
     if vsyncEnabled:
@@ -69,9 +142,53 @@ def SettingsMenu():
     else:
         FullscreenSetting=Button(text=f'Fullscreen: off',scale_x=.2,scale_y=.1,y=.2,x=-.35,color=color.clear,highlight_color=color.clear,on_click=ChangeScreen)
 
+def LevelSelector():
+    global Level1,Level2,Level3,Level4,Level5,Level6
+    MainMenuSelector.on_click=LevelSelectorReturn; MainMenuSelector.text="Return"
+    MainMenuStart.disabled=True; MainMenuStart.visible=False
+    MainMenuSettings.disabled=True; MainMenuSettings.visible=False
+    Level1=Button(LV="Yes",text="Load Tutorial.", on_click=StartTutorial,y=.2,x=-.3,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level2=Button(LV="Yes",text="Load prolouge.", on_click=StartProlouge,y=.0,x=-.3,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level3=Button(LV="Yes",text="Load level 1", on_click=StartLevel2,y=-.2,x=-.3,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level4=Button(LV="Yes",text="Load level 2.", on_click=StartLevel3,y=.2,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level5=Button(LV="Yes",text="Load level 3.", on_click=StartLevel4,y=0,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level6=Button(LV="Yes",text="Load finale.", on_click=StartEnd,y=-.2,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+
+def update():
+    try:
+        if Level1.hovered:
+            MainMenu.color=color.white66
+            MainMenu.texture='assets/textures/tutorial_button.png'
+        elif Level2.hovered:
+            MainMenu.color=color.white66
+            MainMenu.texture='assets/textures/levelone_button.png'
+        elif Level3.hovered:
+            MainMenu.color=color.white66
+            MainMenu.texture='assets/textures/leveltwo_button.png'
+        elif Level4.hovered:
+            MainMenu.color=color.white66
+            MainMenu.texture='assets/textures/levelthree_button.png'
+        elif Level5.hovered:
+            MainMenu.color=color.white66
+            MainMenu.texture='assets/textures/levelfour_button.png'
+        elif Level6.hovered:
+            MainMenu.color=color.white66
+            MainMenu.texture='assets/textures/final_button.png'
+        else:
+            MainMenu.color=color.black66
+            MainMenu.texture=None
+    except:
+        pass
+
+def LevelSelectorReturn():
+    MainMenuSelector.on_click=LevelSelector; MainMenuSelector.text="Level Selector"
+    MainMenuStart.disabled=False; MainMenuStart.visible=True
+    MainMenuSettings.disabled=False; MainMenuSettings.visible=True
+    destroy(Level1); destroy(Level2); destroy(Level3); destroy(Level4); destroy(Level5); destroy(Level6)
+
 def SettingsMenuReturn():
     MainMenuSettings.on_click=SettingsMenu; MainMenuSettings.text='Settings'; MainMenuSettings.y=-.1
-    MainMenuStart.disabled=False; MainMenuStart.visible=True
+    MainMenuStart.disabled=False; MainMenuStart.visible=True; MainMenuSelector.disabled=False; MainMenuSelector.visible=True
     SettingsMusic.stop(); AmbientSound1.play()
     destroy(VsyncSetting); destroy(volume_slider); destroy(FullscreenSetting)
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
@@ -106,11 +223,11 @@ window.fullscreen=Fullscreen
 window.title = "Echoes in the Dark"
 app = Ursina(borderless=False)
 
-
-MainMenu=Entity(model='quad',color=color.black66,scale=100)
+MainMenu=Entity(parent=camera.ui,model='quad',color=color.black66,scale_y=1,scale_x=2)
 MainMenuStart=Button(text='Start Game',scale_y=.1,scale_x=.2,color=color.clear,highlight_color=color.clear,x=-.7,on_click=StartGame)
 MainMenuSettings=Button(text='Settings',scale_y=.1,scale_x=.2,color=color.clear,hightlight_color=color.clear,x=-.7,y=-.12,on_click=SettingsMenu)
 MainMenuQuit=Button(text='Quit to desktop',scale_y=.1,scale_x=.2,color=color.clear,hightlight_color=color.clear,x=-.7,y=-.4,on_click=application.quit)
+MainMenuSelector=Button(text='Level Selector',scale_y=.1,scale_x=.2,color=color.clear,hightlight_color=color.clear,x=-.7,y=-.25,on_click=LevelSelector)
 
 #Audio loading
 app.taskMgr.add(LoadAudio(path="assets/audio/settings.ogg",name="SettingsMusic",loop=True))
