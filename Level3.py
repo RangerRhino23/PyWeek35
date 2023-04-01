@@ -173,8 +173,6 @@ def input(key):
         with open("Settings.py", "r") as f:
             exec(f.read())
 
-        player_controller.position = blockFour.position + (0,1,0)
-
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
 
