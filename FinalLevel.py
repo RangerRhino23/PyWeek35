@@ -383,9 +383,8 @@ blockFour=Entity(ID="Normal",model='quad',color=color.black33,z=player_controlle
 movingPlatformOne=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=9,toX=12)
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=4,collider='box')
 movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=14)
-blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=6,collider='box')
-blockSeven=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=12,collider='box')
-blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=10,collider='box')
+blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=12,collider='box')
+blockSeven=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=10,collider='box')
 
 
 #laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
