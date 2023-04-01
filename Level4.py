@@ -360,13 +360,14 @@ blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_control
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
-
+level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
 def FinishedLevel4():
     Level4Completed = True
     data['Level4Completed'] = Level4Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
-        Audio('assets/audio/levelwin',autoplay=True,loop=False)
+    if not level_completed.playing:
+        level_completed.play()
     camera.overlay.color = color.black
     egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
     invoke(nextpart,delay=3.2)
