@@ -77,7 +77,7 @@ def SettingsMenuReturn():
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
 
 def StartGame():
-    if not Level1Completed:
+    if Level1Completed:
         import subprocess
         import sys
         import os
