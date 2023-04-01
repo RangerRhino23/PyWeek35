@@ -279,7 +279,7 @@ class Interactable(Entity):
 
 defaultPlayerPosition=Vec3(player_controller.position)
 class LaserBeam(Entity):
-    def __init__(self,ID,x=0,y=0, **kwargs):
+    def __init__(self,ID,x=0,y=0,cooldown_speed=1.1, **kwargs):
         super().__init__(self, **kwargs)
         self.model='quad'
         self.scale=(0.125,y)
@@ -291,11 +291,12 @@ class LaserBeam(Entity):
         self.cooldown = 0
         self.visible = True
         self.name = 'LaserBeam'
+        self.cooldown_speed=cooldown_speed
         self.biggusCollidus=Entity(model='quad',color=color.clear,position=self.position,scale_y=self.scale_y+.08,scale_x=self.scale_x+.08,z=player_controller.z)
 
     def update(self):
         self.cooldown += time.dt
-        if self.cooldown >= 1.1:
+        if self.cooldown >= self.cooldown_speed:
             self.cooldown = 0
             if self.visible:
                 self.visible = False
@@ -351,9 +352,13 @@ DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=5,scale=.3,y=0,collider='box')
 blockTwo=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=1,collider='box')
 blockThree=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=7,scale=.3,y=2,collider='box')
-laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4)
-blockFour=Entity(ID="Normal",model='quad',color=rgb(255,0,255),z=player_controller.z,x=8,scale=.3,y=2,collider='box')
-movingPlatformone=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=10,toX=14)
+laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4,cooldown_speed=1)
+blockFour=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=8,scale=.3,y=2,collider='box')
+movingPlatformOne=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=9,toX=12)
+blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=4,collider='box')
+movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=10)
+blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=6,collider='box')
+blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=8,collider='box')
 
 
 #laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
