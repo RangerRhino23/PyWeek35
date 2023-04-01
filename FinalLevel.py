@@ -90,14 +90,6 @@ def Inverse():
                     e.color=color.rgb(255,0,255)
                     e.collider=None
 
-if Level5Completed:
-    app=Ursina()
-
-    Text("Congrats, you already beat the game! to play again change data to false",x=-.4)
-
-    nextpart()
-    app.run()
-
 vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']

@@ -1,6 +1,7 @@
 from ursina import *
 import json
-
+with open("data.json", 'r') as f:
+    data=json.load(f)
 def StartTutorial():
     import subprocess
     import sys
@@ -153,9 +154,13 @@ def LevelSelector():
     Level4=Button(LV="Yes",text="Load level 2.", on_click=StartLevel3,y=.2,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
     Level5=Button(LV="Yes",text="Load level 3.", on_click=StartLevel4,y=0,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
     Level6=Button(LV="Yes",text="Load finale.", on_click=StartEnd,y=-.2,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
-
+Finsfhsdjfh=data['Level5Completed']
 def update():
     try:
+        if Finsfhsdjfh:
+            Level6.on_click=StartEnd
+        else:
+            Level6.on_click=None
         if Level1.hovered:
             MainMenu.color=color.white66
             MainMenu.texture='assets/textures/tutorial_button.png'
@@ -205,8 +210,7 @@ def StartGame():
     subprocess.Popen(["python", file_path])
     sys.exit()
 
-with open("data.json", 'r') as f:
-    data=json.load(f)
+
 
 
 
