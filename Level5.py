@@ -84,7 +84,7 @@ vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
-Level4Completed=data['Level4Completed']
+Level5Completed=data['Level5Completed']
 
 
 window.vsync=vsyncEnabled
@@ -95,7 +95,7 @@ window.title="Echoes in the Dark"
 app=Ursina()
 time.sleep(1)
 camera.overlay.color = color.black
-logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro4.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro5.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
 logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
 camera.overlay.animate_color(color.clear, duration=1, delay=4)
 destroy(logo, delay=5)
@@ -296,7 +296,7 @@ class Door(Entity):
             self.inviscollider.collider=None
             self.texture='assets/textures/doorOpened.png'
             if dist<.5:
-                FinishedLevel4()
+                FinishedLevel5()
 
 def DoorUnlock():
     DoorForWall.locked=False
@@ -308,19 +308,15 @@ invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_contr
 invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
-MovingPlatformOne=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=4,fromY=-1,toY=4)
-blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=5,collider='box')
-MovingPlatformTwo=MovingPlatform(ID='Normal',color=color.black66,y=5,fromX=6,toX=10)
-blockTwo=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=11,scale=.3,y=6,collider='box')
-blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=12,scale=.3,y=6,collider='box')
-blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=14,scale=.3,y=6,collider='box')
-blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
-ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
-LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
+
+#MovingPlatformOne=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=4,fromY=-1,toY=4)
+#blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=5,collider='box')
+#ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
+#LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
 
 def FinishedLevel5():
-    Level4Completed = True
-    data['Level4Completed'] = Level4Completed
+    Level5Completed = True
+    data['Level5Completed'] = Level5Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
         Audio('assets/audio/levelwin',autoplay=True,loop=False)
@@ -334,7 +330,7 @@ def nextpart():
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "Level5.py")
+    file_path = os.path.join(current_dir, "Level6.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()
