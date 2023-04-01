@@ -299,10 +299,10 @@ class Interactable(Entity):
 
 defaultPlayerPosition=Vec3(player_controller.position)
 class LaserBeam(Entity):
-    def __init__(self,ID,x=0,y=0,cooldown_speed=1.1, **kwargs):
+    def __init__(self,ID,x=0,y=0,cooldown_speed=1.1,height=5, **kwargs):
         super().__init__(self, **kwargs)
         self.model='quad'
-        self.scale=(0.125,y)
+        self.scale=(0.125,height)
         self.x=x
         self.y=y
         self.z=player_controller.z
@@ -379,12 +379,17 @@ DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=5,scale=.3,y=0,collider='box')
 blockTwo=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=1,collider='box')
 blockThree=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=7,scale=.3,y=2,collider='box')
-laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4,cooldown_speed=1)
+laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4,cooldown_speed=1,height=4)
 blockFour=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=8,scale=.3,y=2,collider='box')
 movingPlatformOne=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=9,toX=12)
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=4,collider='box')
 movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=10)
 blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=8,collider='box')
+blockSeven=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=11,scale=.3,y=8,collider='box')
+laserBeamTwo=LaserBeam(ID='Inversed',x=10.5,y=9,cooldown_speed=1,height=6)
+blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=10,scale=.3,y=8,collider='box')
+groundOne=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=7,y=8,collider='box')
+LeverForDoorOne=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=6,y=8.5)
 #blockSeven=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=6,collider='box')
 
 
