@@ -351,18 +351,19 @@ invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_co
 DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
 blockTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=8,scale=.3,y=2)
-blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z+.1,x=15,scale=.3,y=2.1,collider='box')
+blockThree=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z+.1,x=15,scale=.3,y=2.1,collider='box')
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=20,x=26,y=2.5,collider='box')
 MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=2,fromX=10,toX=14)
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=3)
 
+level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
 def FinishedLevel1():
     Level1Completed = True
     data['Level1Completed'] = Level1Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
-    level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
-    level_completed.play()
+    if not level_completed.playing:
+        level_completed.play()
     camera.overlay.color = color.black
     egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
     invoke(nextpart,delay=3.2)

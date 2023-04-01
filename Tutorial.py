@@ -439,14 +439,16 @@ def TutorialScript14():
     TutorialText=Text("Ok, lets move onto the main game!",scale=1.2,y=.3,x=-.12)
     PopSound.play()
     invoke(FinishedTutorial,delay=3)
-
+    
+level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
 def FinishedTutorial():
     TutorialCompleted = True
     data['TutorialCompleted'] = TutorialCompleted
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
-    level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
-    level_completed.play()
+    
+    if not level_completed.playing:
+        level_completed.play()
 
     camera.overlay.color = color.black
     egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)

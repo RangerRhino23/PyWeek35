@@ -420,20 +420,12 @@ blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controll
 groundThree=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=8,y=12,collider='box')
 LeverForDoorThree=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=7,y=12.5)
 
-
-#laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
-#MovingPlatformOne=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=4,fromY=-1,toY=4)
-#blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=5,collider='box')
-#ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
-#LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
-
+level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
 def FinishedLevel5():
     Level5Completed = True
     data['Level5Completed'] = Level5Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
-    level_completed = Audio('assets/audio/levelwin',autoplay=False,loop=False)
-    level_completed.play()
     camera.overlay.color = color.black
     egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
     invoke(nextpart,delay=3.2)
