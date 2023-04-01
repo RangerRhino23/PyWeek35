@@ -197,10 +197,9 @@ class MovingPlatform(Entity):
         self.speed = 2
         self.x=fromX
         self.y=y
-        self.hasCollider=True
 
     def update(self):
-        if player_controller.intersects(self) and self.hasCollider:
+        if player_controller.intersects(self) and self.collider=='box':
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
@@ -209,30 +208,37 @@ class MovingPlatform(Entity):
             self.direction = Vec3(1, 0, 0)
         if self.ID=='Normal':
             self.collider='box'
-            self.hasCollider=True
         else:
             self.collider=None
-            self.hasCollider=False
         
 class TutorialBlock(Entity):
     def __init__(self,action, **kwargs):
         super().__init__(self, **kwargs)
         self.action=action
+        self.action1Done=False
+        self.action2Done=False
     def update(self):
         dist=distance(PlayerAnimation,self)
         if player_controller.y==.25 and dist<.4 and self.action==1:
-            destroy(TutorialText)
-            destroy(self)
-            TutorialScript4()
+            destroy(TutorialText,delay=1)
+            destroy(self,delay=1)
+            if not self.action1Done:
+                self.action1Done=True
+                invoke(TutorialScript4,delay=1)
         elif dist<.4 and self.action==2:
             self.color=color.rgb(255,0,255)
-            destroy(self)
-            destroy(TutorialText)
-            TutorialScript12()
+            if InversedMode:
+                destroy(self,delay=2)
+                destroy(TutorialText,delay=2)
+                if not self.action2Done:
+                    self.action2Done=True
+                    invoke(TutorialScript12,delay=2)
         if self.action==2 and InversedMode:
             self.color=color.rgb(255,0,255)
+            self.collider=None
         elif self.action==2 and not InversedMode:
             self.color=color.black
+            self.collider='box'
 
 #MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black33,y=1.5,fromX=6,toX=10)
 #Lever1=Interactable(x=10,functionCallBackOn=test,functionCallBackOff=test2,y=-1)
@@ -269,7 +275,7 @@ def TutorialInputs(key):
             TutorialAction3=False
             chance=random.randint(0,20)
             if chance==20:
-                Audio('assets/audio/eggyaudio.ogg',autoplay=True,loop=False,auto_destroy=True)
+                Audio('assets/audio/eggyaudio.ogg',autoplay=True,loop=False,auto_destroy=True,volume=2)
                 Audio('assets/audio/eggyaudio2.ogg',autoplay=True,loop=False,auto_destroy=True)
                 Entity(parent=camera.ui,model='quad',texture='assets/textures/happyboi.jpg',scale=2)
                 Music.stop()
