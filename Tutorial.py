@@ -199,7 +199,9 @@ class MovingPlatform(Entity):
         self.y=y
 
     def update(self):
-        if player_controller.intersects(self) and self.collider=='box':
+        print(self.collider)
+        print(self.ID)
+        if player_controller.intersects(self) and self.collider!=None:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
@@ -210,6 +212,13 @@ class MovingPlatform(Entity):
             self.collider='box'
         else:
             self.collider=None
+    def input(self, key):
+        if key=='w':
+            if self.ID=='Normal':
+                self.ID='Inversed'
+            else:
+                self.ID='Normal'
+
         
 class TutorialBlock(Entity):
     def __init__(self,action, **kwargs):
@@ -244,7 +253,7 @@ class TutorialBlock(Entity):
 #Lever1=Interactable(x=10,functionCallBackOn=test,functionCallBackOff=test2,y=-1)
 invisWall=Entity(model='cube',color=color.clear,x=-4,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,x=10,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
-
+MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,fromX=2,toX=6)
 
 TutorialTimer=0
 TutorialAction1=False
@@ -354,7 +363,7 @@ def TutorialScript9():
 
 def TutorialScript10():
     global TutorialText
-    TutorialText=Text("You can tell if you cant jump on it by its colour.",scale=1.2,y=.3,x=-.13)
+    TutorialText=Text("You can tell if you can't jump on it by its colour.",scale=1.2,y=.3,x=-.13)
     destroy(TutorialText, delay=3); invoke(TutorialScript11,delay=3)
     PopSound.play()
 
@@ -376,7 +385,7 @@ def TutorialScript12():
 
 def TutorialScript13():
     global TutorialText
-    TutorialText=Text("Moving platforms, however, can still be walked on even in shadow mode.",scale=1.2,y=.3,x=-.25)
+    TutorialText=Text("Moving platforms, also, can't be walked on in shadow mode.",scale=1.2,y=.3,x=-.25)
     PopSound.play()
     destroy(TutorialText,delay=4); invoke(TutorialScript14,delay=4)
 

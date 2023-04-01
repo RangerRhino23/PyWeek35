@@ -194,10 +194,11 @@ class MovingPlatform(Entity):
         self.speed = 2
         self.x=fromX
         self.y=y
-        self.hasCollider=True
 
     def update(self):
-        if player_controller.intersects(self) and self.hasCollider:
+        print(self.collider)
+        print(self.ID)
+        if player_controller.intersects(self) and self.collider!=None:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
@@ -206,10 +207,14 @@ class MovingPlatform(Entity):
             self.direction = Vec3(1, 0, 0)
         if self.ID=='Normal':
             self.collider='box'
-            self.hasCollider=True
         else:
             self.collider=None
-            self.hasCollider=False
+    def input(self, key):
+        if key=='w':
+            if self.ID=='Normal':
+                self.ID='Inversed'
+            else:
+                self.ID='Normal'
 
 class MovingPlatform_Vertical(Entity):
     def __init__(self,ID, fromY, toY,x=0,y=0, **kwargs):
@@ -225,10 +230,9 @@ class MovingPlatform_Vertical(Entity):
         self.speed = 2
         self.x=x
         self.y=fromY # modified to set the starting position in the y-axis
-        self.hasCollider=True
 
     def update(self):
-        if player_controller.intersects(self) and self.hasCollider:
+        if player_controller.intersects(self) and self.collider!=None:
             player_controller.y=self.y+.1 # modified to update player's y-axis position
         self.position += self.direction * self.speed * time.dt
         if self.position.y > self.toY: # modified to check against the top boundary
@@ -237,11 +241,15 @@ class MovingPlatform_Vertical(Entity):
             self.direction = Vec3(0, 1, 0)
         if self.ID=='Normal':
             self.collider='box'
-            self.hasCollider=True
         else:
             self.collider=None
-            self.hasCollider=False
 
+    def input(self, key):
+        if key=='w':
+            if self.ID=='Normal':
+                self.ID='Inversed'
+            else:
+                self.ID='Normal'
 
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
