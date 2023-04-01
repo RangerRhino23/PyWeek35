@@ -150,9 +150,9 @@ def LevelSelector():
     MainMenuSettings.disabled=True; MainMenuSettings.visible=False
     Level1=Button(LV="Yes",text="Load Tutorial.", on_click=StartTutorial,y=.2,x=-.3,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
     Level2=Button(LV="Yes",text="Load prolouge.", on_click=StartProlouge,y=.0,x=-.3,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
-    Level3=Button(LV="Yes",text="Load level 1", on_click=StartLevel2,y=-.2,x=-.3,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
-    Level4=Button(LV="Yes",text="Load level 2.", on_click=StartLevel3,y=.2,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
-    Level5=Button(LV="Yes",text="Load level 3.", on_click=StartLevel4,y=0,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level3=Button(LV="Yes",text="Load level 2.", on_click=StartLevel2,y=-.2,x=-.3,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level4=Button(LV="Yes",text="Load level 3.", on_click=StartLevel3,y=.2,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
+    Level5=Button(LV="Yes",text="Load level 4.", on_click=StartLevel4,y=0,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
     Level6=Button(LV="Yes",text="Load finale.", on_click=StartEnd,y=-.2,x=0,color=color.clear,highlight_color=color.clear,scale=(.2,.1,.1))
 Finsfhsdjfh=data['Level5Completed']
 def update():
