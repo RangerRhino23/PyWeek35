@@ -297,7 +297,7 @@ class LaserBeam(Entity):
         self.cooldown = 0
         self.visible = True
         self.name = 'LaserBeam'
-        self.laser_maker = Entity(model='quad', scale=(0.2,0.1),color=color.dark_gray,position=(x,y+1.25))
+        Entity(model='quad', scale=(0.2,0.2),color=color.dark_gray,position=(x,y+1.25))
 
     def update(self):
         self.cooldown += time.dt
