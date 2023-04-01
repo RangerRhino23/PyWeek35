@@ -1,6 +1,7 @@
 import random as ra
 import numpy as np
 import os
+from ursina import *
 #Gets all the images from the buildings folder
 imageDirectory = 'assets/textures/buildings'
 buildingPool = []

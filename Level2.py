@@ -3,46 +3,6 @@ import assets.APIs.player_movement_api as pma
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 import json
 
-app=Ursina()
-
-e=Text("Sorry but this was all the time we had to code.")
-
-
-def next():
-    global e
-    destroy(e)
-    e=Text("We hope you had fun with what was available")
-    invoke(next1, delay=4)
-def next1():
-    global e
-    destroy(e)
-    e=Text("We had fun making this and we are counting this as finished.")
-    invoke(next3, delay=4)
-def next3():
-    global e
-    destroy(e)
-    e=Text("There is a secret in the prolouge which has a 1/20 chance of activating.",x=-.2)
-    invoke(next4, delay=5)
-def next4():
-    global e
-    destroy(e)
-    e=Text("Go have a look at it")
-    s = Sequence(Wait(5),Func(application.quit))
-    s.start()
-
-invoke(next,delay=4)
-app.run()
-
-
-
-
-
-
-
-
-
-
-
 
 with open("data.json", 'r') as f:
     data=json.load(f)
@@ -124,7 +84,7 @@ vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
-Level1Completed=data['Level1Completed']
+Level2Completed=data['Level2Completed']
 
 
 window.vsync=vsyncEnabled
@@ -155,6 +115,9 @@ PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',fps=24,parent=scene,vi
 camera.add_script(SmoothFollow(target=player_controller, offset=[0,1,-30], speed=4))
 camera.orthographic = True
 camera.fov = 10
+
+with open("GenerateBackground.py", "r") as f:
+    exec(f.read())
 
 
 sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(35,35))
@@ -209,6 +172,9 @@ def input(key):
         InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
+    ###TESTING### DO NOT KEEP FOR FINALY RELEASE
+    if key == 'g':
+        player_controller.position = blockFour.position + (0,1,0)
 
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
@@ -293,13 +259,49 @@ class Door(Entity):
 
 
     def update(self):
+        dist=distance(self, player_controller)
         if self.locked:
             self.inviscollider.collider='box'
             self.texture='assets/textures/doorClosed.png'
         else:
             self.inviscollider.collider=None
             self.texture='assets/textures/doorOpened.png'
+            if dist<.5:
+                FinishedLevel2()
 
+def DoorUnlock():
+    DoorForWall.locked=False
 
+def DoorLock():
+    DoorForWall.locked=True
+
+invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
+invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
+invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
+DoorForWall=Door(locked=True,y=-.5,x=-2)
+blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
+blockTwo=Entity(ID="Normal",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=5,scale=.3,y=1)
+blockThree=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z+.1,x=7,scale=.3,y=3,collider='box')
+MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
+blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z+.1,x=13,scale=.3,y=4,collider='box')
+blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z+.1,x=14,scale=.3,y=5,collider='box')
+ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
+LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
+
+def FinishedLevel2():
+    Level1Completed = True
+    data['Level2Completed'] = Level1Completed
+    with open("data.json", "w") as f:
+        json.dump(data, f,indent=4)
+    import subprocess
+    import sys
+    import os
+
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
+    file_path = os.path.join(current_dir, "level3.py")
+
+    subprocess.Popen(["python", file_path])
+    sys.exit()
 
 app.run()
