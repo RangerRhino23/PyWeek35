@@ -232,7 +232,7 @@ class MovingPlatform(Entity):
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
         super().__init__(self,model='quad', **kwargs)
-        self.scale=.2
+        self.scale=(.2,.4)
         self.functionCallBackOn = functionCallBackOn
         self.functionCallBackOff = functionCallBackOff
         self.duration=0
@@ -300,7 +300,6 @@ blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controll
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=20,x=26,y=2.5,collider='box')
 MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=2,fromX=10,toX=14)
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=3)
-#ground = Entity(model='quad', color=color.dark_gray,scale=(1000, 10, 20), collider='box', y=-6, z=player_controller.z+.1)
 
 def FinishedLevel1():
     Level1Completed = True

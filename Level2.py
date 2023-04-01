@@ -219,7 +219,7 @@ class MovingPlatform(Entity):
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
         super().__init__(self,model='quad', **kwargs)
-        self.scale=.2
+        self.scale=(.2,.4)
         self.functionCallBackOn = functionCallBackOn
         self.functionCallBackOff = functionCallBackOff
         self.duration=0

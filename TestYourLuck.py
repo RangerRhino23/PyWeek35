@@ -3,7 +3,7 @@ import random as ra
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 
 class MovingPlatform(Entity):
-    def init(self,ID, fromY, toY,x=0,y=0, kwargs):
+    def init(self,ID, fromY, toY,x=0,y=0, **kwargs):
         super().init(self,model='quad', parent=scene,x=x,y=y, **kwargs)
         self.fromY=fromY
         self.toY=toY
