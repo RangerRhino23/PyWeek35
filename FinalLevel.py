@@ -171,6 +171,9 @@ def input(key):
         InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
+    ###TESTING###
+    if key == 'g':
+        player_controller.position = movingPlatformOne.position
 
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
@@ -308,6 +311,7 @@ class LaserBeam(Entity):
         self.visible = True
         self.name = 'LaserBeam'
         self.cooldown_speed=cooldown_speed
+        self.cooldown=0
         self.biggusCollidus=Entity(model='quad',color=color.clear,position=self.position,scale_y=self.scale_y+.08,scale_x=self.scale_x+.08,z=player_controller.z)
 
     def update(self):
@@ -372,9 +376,10 @@ laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4,cooldown_speed=1)
 blockFour=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=8,scale=.3,y=2,collider='box')
 movingPlatformOne=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=9,toX=12)
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=4,collider='box')
-movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=10)
+movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=14)
 blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=6,collider='box')
-blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=8,collider='box')
+blockSeven=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=12,collider='box')
+blockEight=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=10,collider='box')
 
 
 #laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
