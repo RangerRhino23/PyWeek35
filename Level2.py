@@ -194,9 +194,10 @@ class MovingPlatform(Entity):
         self.speed = 2
         self.x=fromX
         self.y=y
+        self.hasCollider=True
 
     def update(self):
-        if player_controller.intersects(self) and self.collider!=None:
+        if player_controller.intersects(self) and self.hasCollider:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
@@ -205,14 +206,10 @@ class MovingPlatform(Entity):
             self.direction = Vec3(1, 0, 0)
         if self.ID=='Normal':
             self.collider='box'
+            self.hasCollider=True
         else:
             self.collider=None
-    def input(self, key):
-        if key=='w':
-            if self.ID=='Normal':
-                self.ID='Inversed'
-            else:
-                self.ID='Normal'
+            self.hasCollider=False
         
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
