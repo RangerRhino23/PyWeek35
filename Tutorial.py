@@ -91,7 +91,7 @@ def Inverse():
 if TutorialCompleted:
     app=Ursina()
 
-    Text("Tutorial completed already! To play again chage data to false. Moving on to Level 2",x=-.4)
+    Text("Tutorial completed already! To play again chage data to false. Moving on to Level 1",x=-.4)
     timer=0
 
     def update():
