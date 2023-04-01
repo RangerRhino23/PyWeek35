@@ -1,0 +1,3 @@
+Echos in the Dark Final Level Ideas:
+*Three levers you have to activate to clear level
+*Laser beams that reset you to the beginning as obsticles
