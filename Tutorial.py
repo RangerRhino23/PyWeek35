@@ -172,11 +172,10 @@ def input(key):
         PlayerAnimation.visible=True
     if key=='escape' and InSettings==False:
         InSettings=True
-        application.pause()
         with open("Settings.py", "r") as f:
             exec(f.read())
         
-app.taskMgr.add(LoadAudio(path="assets/audio/ambient.ogg",name="Ambience1",autoplay=True,loop=True))
+app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 PopSound=Audio('assets/audio/pop.ogg',autoplay=False,loop=False)
 
@@ -273,7 +272,7 @@ def TutorialInputs(key):
                 Audio('assets/audio/eggyaudio.ogg',autoplay=True,loop=False,auto_destroy=True)
                 Audio('assets/audio/eggyaudio2.ogg',autoplay=True,loop=False,auto_destroy=True)
                 Entity(parent=camera.ui,model='quad',texture='assets/textures/happyboi.jpg',scale=2)
-                Ambience1.stop()
+                Music.stop()
                 s = Sequence(
                     Wait(5),
                     Func(application.quit))
@@ -394,7 +393,7 @@ def FinishedTutorial():
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "Level1.py")
+    file_path = os.path.join(current_dir, "Prolouge.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()

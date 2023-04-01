@@ -3,6 +3,47 @@ import assets.APIs.player_movement_api as pma
 from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 import json
 
+app=Ursina()
+
+e=Text("Sorry but this was all the time we had to code.")
+
+
+def next():
+    global e
+    destroy(e)
+    e=Text("We hope you had fun with what was available")
+    invoke(next1, delay=4)
+def next1():
+    global e
+    destroy(e)
+    e=Text("We had fun making this and we are counting this as finished.")
+    invoke(next3, delay=4)
+def next3():
+    global e
+    destroy(e)
+    e=Text("There is a secret in the prolouge which has a 1/20 chance of activating.",x=-.2)
+    invoke(next4, delay=5)
+def next4():
+    global e
+    destroy(e)
+    e=Text("Go have a look at it")
+    s = Sequence(Wait(5),Func(application.quit))
+    s.start()
+
+invoke(next,delay=4)
+app.run()
+
+
+
+
+
+
+
+
+
+
+
+
 with open("data.json", 'r') as f:
     data=json.load(f)
 
@@ -90,23 +131,11 @@ window.vsync=vsyncEnabled
 window.fullscreen=Fullscreen
 window.title="Echoes in the Dark"
 
-if Level1Completed:
-    app=Ursina()
-
-    Text("Level 1 completed already! To play again chage data to false.",x=-.4)
-    timer=0
-
-    def update():
-        global timer
-        timer+=time.dt
-        if timer>=5:
-            application.quit()
-    app.run()
 
 app=Ursina()
 time.sleep(1)
 camera.overlay.color = color.black
-logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro1.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro2.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
 logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
 camera.overlay.animate_color(color.clear, duration=1, delay=4)
 destroy(logo, delay=5)
@@ -118,7 +147,7 @@ def splash_input(key):
 logo.input = splash_input
 
 app.sfxManagerList[0].setVolume(volume)
-player_controller = PlatformerController2d(parent=scene,walk_speed=2,y=1,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", visible=False)
+player_controller = PlatformerController2d(parent=scene,walk_speed=2,scale_y=.5,scale_x=.25, jump_height=2, z=-1,x=3,model="cube", visible=False)
 
 PlayerAnimation=Animation('assets/textures/bat_gif.gif',fps=24,parent=scene,scale=.5,z=0)
 camera.position=player_controller.position + (0,7,0)
@@ -126,9 +155,6 @@ PlayerAnimation2=Animation('assets/textures/bat_gif2.gif',fps=24,parent=scene,vi
 camera.add_script(SmoothFollow(target=player_controller, offset=[0,1,-30], speed=4))
 camera.orthographic = True
 camera.fov = 10
-
-with open("GenerateBackground.py", "r") as f:
-    exec(f.read())
 
 
 sky=Entity(model='quad',texture='assets/textures/sky.jpg',z=100,scale=1000,texture_scale=(35,35))
@@ -146,6 +172,7 @@ def update():
         player_controller.walk_speed=2
     elif not InversedMode and not InSettings:
         player_controller.walk_speed=4
+
 Timer=0
 InverseCooldown=False  
 def InverseTimer():
@@ -156,13 +183,10 @@ def InverseTimer():
             InverseCooldown=False
             Timer=0
 
-EditorCamera()
 Entity(update=InverseTimer)
 
 def input(key):
     global InSettings,InverseCooldown,InversedMode
-    if key=='f':
-        print(player_controller.position)
     if key=='w' and not InverseCooldown and not InSettings:
         Inverse()
         InverseCooldown=True
@@ -185,9 +209,9 @@ def input(key):
         InSettings=True
         with open("Settings.py", "r") as f:
             exec(f.read())
-        application.pause()
 
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
+app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
 
 ##############
 # BUILD AREA #
@@ -210,7 +234,7 @@ class MovingPlatform(Entity):
         self.hasCollider=True
 
     def update(self):
-        if player_controller.intersects(self) and player_controller.y<=self.y+.1 and self.hasCollider:
+        if player_controller.intersects(self) and self.hasCollider:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
@@ -262,8 +286,7 @@ class Door(Entity):
         self.scale_y=.8
         self.z=player_controller.z+.1
         self.scale_x=.4
-        self.color=color.black
-        #self.texture='assets/textures/doorClosed.png'
+        self.texture='assets/textures/doorClosed.png'
         self.inviscollider=Entity(model='quad',color=color.clear,scale_y=4,scale_z=2,scale_x=.4)
         self.inviscollider.position=self.position
         self.y-=.1
@@ -272,40 +295,11 @@ class Door(Entity):
     def update(self):
         if self.locked:
             self.inviscollider.collider='box'
+            self.texture='assets/textures/doorClosed.png'
         else:
             self.inviscollider.collider=None
+            self.texture='assets/textures/doorOpened.png'
 
-def DoorUnlock():
-    DoorForWall.locked=False
-
-def DoorLock():
-    DoorForWall.locked=True
-
-invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
-invisWall1=Entity(model='cube',color=color.clear,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
-DoorForWall=Door(locked=True,y=-.5,x=-2)
-#LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=5,y=-.7)
-blockOne=Entity(ID="Normal",model='quad',color=color.black,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
-blockTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=8,scale=.3,y=2)
-blockThree=Entity(ID="Normal",model='quad',color=color.black,z=player_controller.z,x=15,scale=.3,y=2.1,collider='box')
-ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=20,x=26,y=2.5)
-MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=2,fromX=10,toX=14)
-
-def FinishedLevel1():
-    Level1Completed = True
-    data['Level1Completed'] = Level1Completed
-    with open("data.json", "w") as f:
-        json.dump(data, f,indent=4)
-    import subprocess
-    import sys
-    import os
-
-    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
-
-    file_path = os.path.join(current_dir, "Level2.py")
-
-    subprocess.Popen(["python", file_path])
-    sys.exit()
 
 
 app.run()

@@ -2,6 +2,7 @@
     "vsyncEnabled": true,
     "Fullscreen": false,
     "MasterVolume": 100,
+    "TutorialCompleted": false,
     "Level1Completed": false,
     "Level2Completed": false
 }

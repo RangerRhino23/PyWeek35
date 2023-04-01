@@ -68,4 +68,3 @@ def Return():
     global InSettings
     destroy(MainMenuSettings); destroy(MainMenuStart); destroy(MainMenuQuit); destroy(MainMenuBackground)
     InSettings=False
-    application.resume()
