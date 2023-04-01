@@ -304,11 +304,7 @@ class LaserBeam(Entity):
         self.y=y
         self.z=player_controller.z
         self.ID=ID
-        self.canHit=True
-        self.Visiblity=True
-        self.Inversed=False
         self.color=color.red
-        self.cooldown = 0
         self.visible = True
         self.name = 'LaserBeam'
         self.cooldown_speed=cooldown_speed
@@ -318,15 +314,13 @@ class LaserBeam(Entity):
         self.cooldown += time.dt
         if self.cooldown >= self.cooldown_speed:
             self.cooldown = 0
-            if self.Visiblity and not self.Inversed:
-                self.canHit = False
+            if self.visible:
                 self.visible = False
-            elif not self.Visiblity and not self.Inversed:
+            else:
                 self.visible = True
-                self.canHit = True
         if player_controller.intersects(self.biggusCollidus):
             player_controller.position=Vec3(defaultPlayerPosition)
-        if self.canHit:
+        if self.visible:
             self.biggusCollidus.collider='box'
         else:
             self.biggusCollidus.collider=None
@@ -335,13 +329,6 @@ class LaserBeam(Entity):
         elif self.ID == 'Inversed':
             self.color = rgb(255,0,255)
 
-    def input(self, key):
-        if key=='w':
-            if not self.Inversed:
-                self.visible=False
-                self.visible=True
-            else:
-                self.visible=False
 class Door(Entity):
     def __init__(self,locked, **kwargs):
         super().__init__(self, **kwargs)
