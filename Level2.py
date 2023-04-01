@@ -287,16 +287,21 @@ LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=Door
 
 def FinishedLevel2():
     Level1Completed = True
-    data['Level2Completed'] = Level1Completed
+    data['Level1Completed'] = Level1Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
+        Audio('assets/audio/levelwin',autoplay=True,loop=False)
+    camera.overlay.color = color.black
+    egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
+    invoke(nextpart,delay=3.2)
+def nextpart():
     import subprocess
     import sys
     import os
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "Level3.py")
+    file_path = os.path.join(current_dir, "level3.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()

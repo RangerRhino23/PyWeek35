@@ -302,6 +302,11 @@ def FinishedLevel1():
     data['Level1Completed'] = Level1Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
+        Audio('assets/audio/levelwin',autoplay=True,loop=False)
+    camera.overlay.color = color.black
+    egg = Sprite(name='cheese', parent=camera.ui, texture='assets/textures/leveldone.png', world_z=camera.overlay.z-1, scale=.1, color=color.white)
+    invoke(nextpart,delay=3.2)
+def nextpart():
     import subprocess
     import sys
     import os
@@ -312,6 +317,5 @@ def FinishedLevel1():
 
     subprocess.Popen(["python", file_path])
     sys.exit()
-
 
 app.run()
