@@ -296,7 +296,7 @@ def FinishedLevel2():
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "level3.py")
+    file_path = os.path.join(current_dir, "Level3.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()

@@ -279,13 +279,10 @@ invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_c
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
-blockTwo=Entity(ID="Normal",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=5,scale=.3,y=1)
-blockThree=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z+.1,x=7,scale=.3,y=3,collider='box')
-MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
-blockFour=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z+.1,x=13,scale=.3,y=4,collider='box')
-blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z+.1,x=14,scale=.3,y=5,collider='box')
-ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
-LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
+
+#MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
+#ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
+#LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
 
 def FinishedLevel3():
     Level3Completed = True
@@ -298,7 +295,7 @@ def FinishedLevel3():
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "level3.py")
+    file_path = os.path.join(current_dir, "Level4.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()
