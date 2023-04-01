@@ -173,8 +173,6 @@ def input(key):
         with open("Settings.py", "r") as f:
             exec(f.read())
 
-        player_controller.position = blockFour.position + (0,1,0)
-
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
 
@@ -213,35 +211,36 @@ class MovingPlatform(Entity):
             self.collider=None
             self.hasCollider=False
 
-class MovingPlatform(Entity):
-    def __init__(self,ID, fromX, toX,y=0,x=0, **kwargs):
+class MovingPlatform_Vertical(Entity):
+    def __init__(self,ID, fromY, toY,x=0,y=0, **kwargs):
         super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y, **kwargs)
-        self.fromX=fromX
-        self.toX=toX
+        self.fromY=fromY
+        self.toY=toY
         self.ID=ID
         self.collider='box'
         self.scale_x=.8
         self.scale_y=.2
         self.color=color.black33
-        self.direction = Vec3(1, 0, 0)
+        self.direction = Vec3(0, 1, 0) # modified to move up and down
         self.speed = 2
-        self.x=fromX
-        self.y=y
+        self.x=x
+        self.y=fromY # modified to set the starting position in the y-axis
+        self.hasCollider=True
 
     def update(self):
-        print(self.collider)
-        print(self.ID)
-        if player_controller.intersects(self) and self.collider!=None:
-            player_controller.x=self.x
+        if player_controller.intersects(self) and self.hasCollider:
+            player_controller.y=self.y+.1 # modified to update player's y-axis position
         self.position += self.direction * self.speed * time.dt
-        if self.position.x > self.toX:
-            self.direction = Vec3(-1, 0, 0)
-        elif self.position.x < self.fromX:
-            self.direction = Vec3(1, 0, 0)
+        if self.position.y > self.toY: # modified to check against the top boundary
+            self.direction = Vec3(0, -1, 0)
+        elif self.position.y < self.fromY: # modified to check against the bottom boundary
+            self.direction = Vec3(0, 1, 0)
         if self.ID=='Normal':
             self.collider='box'
+            self.hasCollider=True
         else:
             self.collider=None
+            self.hasCollider=False
     def input(self, key):
         if key=='w':
             if self.ID=='Normal':
@@ -315,11 +314,11 @@ invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_c
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=0,collider='box')
-blockTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=7,scale=.3,y=2,collider='box')
+blockTwo=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=7,scale=.3,y=2)
 MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,y=2,fromX=8,toX=12)
-blockThree=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=13,scale=.3,y=2,collider='box')
+blockThree=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=13,scale=.3,y=2)
 MovingPlatformTwo=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=14,fromY=3,toY=6)
-blockFour=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=15,scale=.3,y=6,collider='box')
+blockFour=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=15,scale=.3,y=6)
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=6,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=6.5)
 

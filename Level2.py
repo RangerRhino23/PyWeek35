@@ -194,11 +194,10 @@ class MovingPlatform(Entity):
         self.speed = 2
         self.x=fromX
         self.y=y
+        self.hasCollider=True
 
     def update(self):
-        print(self.collider)
-        print(self.ID)
-        if player_controller.intersects(self) and self.collider!=None:
+        if player_controller.intersects(self) and self.hasCollider:
             player_controller.x=self.x
         self.position += self.direction * self.speed * time.dt
         if self.position.x > self.toX:
@@ -207,14 +206,10 @@ class MovingPlatform(Entity):
             self.direction = Vec3(1, 0, 0)
         if self.ID=='Normal':
             self.collider='box'
+            self.hasCollider=True
         else:
             self.collider=None
-    def input(self, key):
-        if key=='w':
-            if self.ID=='Normal':
-                self.ID='Inversed'
-            else:
-                self.ID='Normal'
+            self.hasCollider=False
         
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
@@ -281,11 +276,11 @@ invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_contr
 invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
-blockOne=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=6,scale=.3,y=0,collider='box')
+blockOne=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z,x=6,scale=.3,y=0)
 blockTwo=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=1)
-blockThree=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z+.1,x=7,scale=.3,y=3,collider='box')
+blockThree=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z+.1,x=7,scale=.3,y=3)
 MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12)
-blockFour=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z+.1,x=13,scale=.3,y=4,collider='box')
+blockFour=Entity(ID="Inversed",model='quad',color=color.rgb(255,0,255),z=player_controller.z+.1,x=13,scale=.3,y=4)
 blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z+.1,x=14,scale=.3,y=5,collider='box')
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)

@@ -110,6 +110,18 @@ window.fullscreen=Fullscreen
 window.title = "Echoes in the Dark"
 app = Ursina(borderless=False)
 
+camera.overlay.color = color.black
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/menu_picture.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
+camera.overlay.animate_color(color.clear, duration=1, delay=4)
+destroy(logo, delay=5)
+
+def splash_input(key):
+    destroy(logo)
+    camera.overlay.animate_color(color.clear, duration=.25)
+
+logo.input = splash_input
+
 MainMenu=Entity(model='quad',color=color.black66,scale=100)
 MainMenuStart=Button(text='Start Game',scale_y=.1,scale_x=.2,color=color.clear,highlight_color=color.clear,x=-.7,on_click=StartGame)
 MainMenuSettings=Button(text='Settings',scale_y=.1,scale_x=.2,color=color.clear,hightlight_color=color.clear,x=-.7,y=-.12,on_click=SettingsMenu)
