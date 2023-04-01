@@ -190,7 +190,7 @@ class MovingPlatform(Entity):
         super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y, **kwargs)
         self.fromX=fromX
         self.toX=toX
-        self.ID=ID
+        self.id=ID
         self.collider='box'
         self.scale_x=.8
         self.scale_y=.2
@@ -199,6 +199,7 @@ class MovingPlatform(Entity):
         self.speed = 2
         self.x=fromX
         self.y=y
+        self.Timer=0
 
     def update(self):
         if player_controller.intersects(self) and self.collider!=None:
@@ -208,29 +209,38 @@ class MovingPlatform(Entity):
             self.direction = Vec3(-1, 0, 0)
         elif self.position.x < self.fromX:
             self.direction = Vec3(1, 0, 0)
-        if self.ID=='Normal':
+        if self.id=='Normal':
             self.collider='box'
+            self.color=color.black33
         else:
             self.collider=None
+            self.color=color.rgb(255,0,255)
+        if self.Timer>=.00001:
+            self.Timer+=time.dt
+            if self.Timer>=1:
+                self.Timer=0
+
     def input(self, key):
-        if key=='w':
-            if self.ID=='Normal':
-                self.ID='Inversed'
-            else:
-                self.ID='Normal'
+        if key=='w' and self.Timer==0:
+            self.Timer=.00001
+            if self.id=='Normal':
+                self.id='Inversed'
+            elif self.id=='Inversed':
+                self.id='Normal'
 
 class MovingPlatform_Vertical(Entity):
     def __init__(self,ID, fromY, toY,x=0,y=0, **kwargs):
         super().__init__(self,model='quad', parent=scene,z=player_controller.z,x=x,y=y, **kwargs)
         self.fromY=fromY
         self.toY=toY
-        self.ID=ID
+        self.id=ID
         self.collider='box'
         self.scale_x=.8
         self.scale_y=.2
         self.color=color.black33
         self.direction = Vec3(0, 1, 0) # modified to move up and down
         self.speed = 2
+        self.Timer=0
         self.x=x
         self.y=fromY # modified to set the starting position in the y-axis
 
@@ -242,17 +252,24 @@ class MovingPlatform_Vertical(Entity):
             self.direction = Vec3(0, -1, 0)
         elif self.position.y < self.fromY: # modified to check against the bottom boundary
             self.direction = Vec3(0, 1, 0)
-        if self.ID=='Normal':
+        if self.id=='Normal':
             self.collider='box'
+            self.color=color.black33
         else:
             self.collider=None
+            self.color=color.rgb(255,0,255)
+        if self.Timer>=.00001:
+            self.Timer+=time.dt
+            if self.Timer>=1:
+                self.Timer=0
 
     def input(self, key):
-        if key=='w':
-            if self.ID=='Normal':
-                self.ID='Inversed'
-            else:
-                self.ID='Normal'
+        if key=='w' and self.Timer==0:
+            self.Timer=.00001
+            if self.id=='Normal':
+                self.id='Inversed'
+            elif self.id=='Inversed':
+                self.id='Normal'
 
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
@@ -293,6 +310,9 @@ class LaserBeam(Entity):
         self.y=y
         self.z=player_controller.z
         self.ID=ID
+        self.canHit=True
+        self.Visiblity=True
+        self.Inversed=False
         self.color=color.red
         self.cooldown = 0
         self.visible = True
@@ -304,17 +324,26 @@ class LaserBeam(Entity):
         self.cooldown += time.dt
         if self.cooldown >= 1.1:
             self.cooldown = 0
-            if self.visible:
+            if self.Visiblity and not self.Inversed:
+                self.canHit = False
                 self.visible = False
-            elif not self.visible:
+            elif not self.Visiblity and not self.Inversed:
                 self.visible = True
+                self.canHit = True
         if player_controller.intersects(self.biggusCollidus):
             player_controller.position=Vec3(defaultPlayerPosition)
-        if self.visible:
+        if self.canHit:
             self.biggusCollidus.collider='box'
         else:
             self.biggusCollidus.collider=None
 
+    def input(self, key):
+        if key=='w':
+            if not self.Inversed:
+                self.visible=False
+                self.visible=True
+            else:
+                self.visible=False
 class Door(Entity):
     def __init__(self,locked, **kwargs):
         super().__init__(self, **kwargs)
@@ -354,7 +383,7 @@ DoorForWall=Door(locked=True,y=-.5,x=-2)
 blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=0,collider='box')
 blockTwo=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=7,scale=.3,y=2,collider='box')
 blockThree=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=9,scale=.3,y=4,collider='box')
-movingPlatformone=MovingPlatform(ID='Inversed',color=color.black66,y=4,fromX=10,toX=14)
+movingPlatformone=MovingPlatform(ID='Inversed',color=color.black33,y=4,fromX=10,toX=14)
 
 
 #laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
