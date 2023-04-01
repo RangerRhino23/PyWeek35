@@ -10,9 +10,6 @@ with open("data.json", 'r') as f:
 with open("Async tasks.py", "r") as f:
     exec(f.read())
 
-with open("SettingsFunctions.py", "r") as f:
-    exec(f.read())
-
 
 TutorialCompleted=data['TutorialCompleted']
 InversedMode=False
@@ -170,10 +167,6 @@ def input(key):
     if key=='d' or held_keys['d'] and not held_keys['a']:
         PlayerAnimation2.visible=False
         PlayerAnimation.visible=True
-    if key=='escape' and InSettings==False:
-        InSettings=True
-        with open("Settings.py", "r") as f:
-            exec(f.read())
         
 app.taskMgr.add(LoadAudio(path="assets/audio/main music.ogg",name="Music",autoplay=True,loop=True))
 app.taskMgr.add(LoadAudio(path="assets/audio/lever.ogg",name="LeverClick",autoplay=False,loop=False))
@@ -253,7 +246,6 @@ class TutorialBlock(Entity):
 #Lever1=Interactable(x=10,functionCallBackOn=test,functionCallBackOff=test2,y=-1)
 invisWall=Entity(model='cube',color=color.clear,x=-4,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,x=10,scale_y=500,z=player_controller.z-.1,scale_z=20,collider='box')
-MovingPlatformOne=MovingPlatform(ID='Normal',color=color.black66,fromX=2,toX=6)
 
 TutorialTimer=0
 TutorialAction1=False
