@@ -15,6 +15,7 @@ scrolled_text.append(scroll_text4)
 scroll_text5 = Text(text='Thank you so much! and goodbye.', font='assets/misc/Starjedi.ttf', origin=(0,0), y=-1.6, scale=2)
 scrolled_text.append(scroll_text5)
 
+scroll_speed = 0.05
 # update the y position of the text objects over time
 def update():
     for text in scrolled_text:
