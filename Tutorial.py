@@ -99,7 +99,7 @@ if TutorialCompleted:
         timer+=time.dt
         if timer>=5:
             invoke(nextpart)
-
+    app.run()
 vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
