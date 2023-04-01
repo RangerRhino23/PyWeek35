@@ -46,7 +46,7 @@ def ChangeScreen():
 def SettingsMenu():
     global VsyncSetting,volume_slider,volume,FullscreenSetting
     MainMenuStart.disabled=True; MainMenuStart.visible=False
-    MainMenuSettings.on_click=SettingsMenuReturn; MainMenuSettings.text='Return'; MainMenuSettings.y=-.3
+    MainMenuSettings.on_click=SettingsMenuReturn; MainMenuSettings.text='Return'
     if vsyncEnabled:
         VsyncSetting=Button(text=f'Vsync: on',scale_x=.2,scale_y=.1,y=.3,x=-.35,color=color.clear,highlight_color=color.clear,on_click=ChangeVsync)
     else:
@@ -59,7 +59,7 @@ def SettingsMenu():
         FullscreenSetting=Button(text=f'Fullscreen: off',scale_x=.2,scale_y=.1,y=.2,x=-.35,color=color.clear,highlight_color=color.clear,on_click=ChangeScreen)
 
 def SettingsMenuReturn():
-    MainMenuSettings.on_click=SettingsMenu; MainMenuSettings.text='Settings'; MainMenuSettings.y=-.1
+    MainMenuSettings.on_click=SettingsMenu; MainMenuSettings.text='Settings'; MainMenuSettings.text_entity.scale *=3 ; MainMenuSettings.y=-.1
     MainMenuStart.disabled=False; MainMenuStart.visible=True
     destroy(VsyncSetting); destroy(volume_slider); destroy(FullscreenSetting)
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
