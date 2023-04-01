@@ -77,17 +77,16 @@ def SettingsMenuReturn():
     MainMenuQuit.visible=True; MainMenuQuit.disabled=False
 
 def StartGame():
-    if Level1Completed:
-        import subprocess
-        import sys
-        import os
+    import subprocess
+    import sys
+    import os
 
-        current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
+    current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-        file_path = os.path.join(current_dir, "Tutorial.py")
+    file_path = os.path.join(current_dir, "Tutorial.py")
 
-        subprocess.Popen(["python", file_path])
-        sys.exit()
+    subprocess.Popen(["python", file_path])
+    sys.exit()
 
 with open("data.json", 'r') as f:
     data=json.load(f)
