@@ -280,6 +280,7 @@ class Interactable(Entity):
                     invoke(self.functionCallBackOn,delay=self.duration)
             LeverClick.play()
 
+defaultPlayerPosition=Vec3(player_controller.position)
 class LaserBeam(Entity):
     def __init__(self,ID,x=0,y=0, **kwargs):
         super().__init__(self, **kwargs)
@@ -287,6 +288,7 @@ class LaserBeam(Entity):
         self.scale=(0.125,2)
         self.x=x
         self.y=y
+        self.z=player_controller.z
         self.ID=ID
         self.color=color.red
         self.cooldown = 0
@@ -296,12 +298,18 @@ class LaserBeam(Entity):
         self.cooldown = self.cooldown + 1
         if self.cooldown == 60:
             self.cooldown = 0
-            if self.visible == True:
+            if self.visible:
                 self.visible = False
                 print('off')
-            elif self.visible == False:
+            elif not self.visible:
                 self.visible = True
                 print('on')
+        if player_controller.intersects(self):
+            player_controller.position=Vec3(defaultPlayerPosition)
+        if self.visible:
+            self.collider='box'
+        else:
+            self.collider=None
 
 class Door(Entity):
     def __init__(self,locked, **kwargs):
