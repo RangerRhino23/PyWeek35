@@ -294,7 +294,7 @@ class MovingPlatform_Vertical(Entity):
             self.direction = Vec3(0, -1, 0)
         elif self.position.y < self.fromY: # modified to check against the bottom boundary
             self.direction = Vec3(0, 1, 0)
-        if self.ID=='Normal':
+        if self.id=='Normal':
             self.collider='box'
             self.hasCollider=True
         else:
