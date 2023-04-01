@@ -253,12 +253,7 @@ class MovingPlatform_Vertical(Entity):
         else:
             self.collider=None
             self.hasCollider=False
-    def input(self, key):
-        if key=='w':
-            if self.ID=='Normal':
-                self.ID='Inversed'
-            else:
-                self.ID='Normal'
+
 
 class Interactable(Entity):
     def __init__(self,functionCallBackOn,functionCallBackOff=None, **kwargs):
