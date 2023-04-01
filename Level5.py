@@ -297,6 +297,7 @@ class LaserBeam(Entity):
         self.cooldown = 0
         self.visible = True
         self.name = 'LaserBeam'
+        self.biggusCollidus=Entity(model='quad',color=color.clear,position=self.position,scale_y=self.scale_y+.08,scale_x=self.scale_x+.08,z=player_controller.z)
         Entity(model='quad', scale=(0.2,0.2),color=color.dark_gray,position=(x,y+1.25))
 
     def update(self):
@@ -307,12 +308,12 @@ class LaserBeam(Entity):
                 self.visible = False
             elif not self.visible:
                 self.visible = True
-        if player_controller.intersects(self):
+        if player_controller.intersects(self.biggusCollidus):
             player_controller.position=Vec3(defaultPlayerPosition)
         if self.visible:
-            self.collider='box'
+            self.biggusCollidus.collider='box'
         else:
-            self.collider=None
+            self.biggusCollidus.collider=None
 
 class Door(Entity):
     def __init__(self,locked, **kwargs):
