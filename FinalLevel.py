@@ -95,7 +95,7 @@ window.title="Echoes in the Dark"
 app=Ursina()
 time.sleep(1)
 camera.overlay.color = color.black
-logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/intro5.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
+logo = Sprite(name='ursina_splash', parent=camera.ui, texture='assets/textures/introfinal.png', world_z=camera.overlay.z-1, scale=.1, color=color.clear)
 logo.animate_color(color.white, duration=2, delay=1, curve=curve.out_quint_boomerang)
 camera.overlay.animate_color(color.clear, duration=1, delay=4)
 destroy(logo, delay=5)
