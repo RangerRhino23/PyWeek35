@@ -306,7 +306,7 @@ class LaserBeam(Entity):
         self.x=x
         self.y=y
         self.z=player_controller.z
-        self.ID=ID
+        self.id=ID
         self.color=color.red
         self.visible = True
         self.name = 'LaserBeam'
@@ -328,9 +328,9 @@ class LaserBeam(Entity):
             self.biggusCollidus.collider='box'
         else:
             self.biggusCollidus.collider=None
-        if self.ID == 'Normal':
+        if self.id == 'Normal':
             self.color = color.red
-        elif self.ID == 'Inversed':
+        elif self.id == 'Inversed':
             self.color = rgb(255,0,255)
 
 class Door(Entity):
