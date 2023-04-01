@@ -288,7 +288,7 @@ class LaserBeam(Entity):
     def __init__(self,ID,x=0,y=0, **kwargs):
         super().__init__(self, **kwargs)
         self.model='quad'
-        self.scale=(0.125,2)
+        self.scale=(0.125,2.5)
         self.x=x
         self.y=y
         self.z=player_controller.z
@@ -298,6 +298,7 @@ class LaserBeam(Entity):
         self.visible = True
         self.name = 'LaserBeam'
         self.biggusCollidus=Entity(model='quad',color=color.clear,position=self.position,scale_y=self.scale_y+.08,scale_x=self.scale_x+.08,z=player_controller.z)
+        Entity(model='quad', scale=(0.2,0.2),color=color.dark_gray,position=(x,y+1.25))
 
     def update(self):
         self.cooldown += time.dt
@@ -350,7 +351,7 @@ invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_contr
 invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
-laserBeamone=LaserBeam(ID="Normal",x=4,y=0)
+laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
 #MovingPlatformOne=MovingPlatform_Vertical(ID='Normal',color=color.black66,x=4,fromY=-1,toY=4)
 #blockOne=Entity(ID="Inversed",model='quad',color=color.black33,z=player_controller.z,x=5,scale=.3,y=5,collider='box')
 #ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
