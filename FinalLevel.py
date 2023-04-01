@@ -13,7 +13,7 @@ with open("Async tasks.py", "r") as f:
 with open("SettingsFunctions.py", "r") as f:
     exec(f.read())
 
-
+Level5Completed=data['Level5Completed']
 InversedMode=False
 def Inverse():
     inverse_paths = {}
@@ -79,12 +79,24 @@ def Inverse():
                     e.color=color.rgb(255,0,255)
                     e.collider=None
 
+if Level5Completed:
+    app=Ursina()
+
+    Text("Congrats, you already beat the game! to play again change data to false",x=-.4)
+    timer=0
+
+    def update():
+        global timer
+        timer+=time.dt
+        if timer>=5:
+            nextpart()
+    app.run()
 
 vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
-Level5Completed=data['Level5Completed']
+
 
 
 window.vsync=vsyncEnabled
@@ -425,7 +437,7 @@ def nextpart():
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "Level6.py")
+    file_path = os.path.join(current_dir, "Finished.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()
