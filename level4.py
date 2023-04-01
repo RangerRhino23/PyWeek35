@@ -84,7 +84,7 @@ vsyncEnabled=data['vsyncEnabled']
 Fullscreen=data['Fullscreen']
 MasterVolume=data['MasterVolume']
 volume=data['MasterVolume']/100
-Level2Completed=data['Level2Completed']
+Level4Completed=data['Level4Completed']
 
 
 window.vsync=vsyncEnabled
@@ -264,7 +264,7 @@ class Door(Entity):
             self.inviscollider.collider=None
             self.texture='assets/textures/doorOpened.png'
             if dist<.5:
-                FinishedLevel2()
+                FinishedLevel4()
 
 def DoorUnlock():
     DoorForWall.locked=False
@@ -280,9 +280,9 @@ MovingPlatformOne=MovingPlatform(ID='Normal',color=color.blue,y=3,fromX=8,toX=12
 ground2=Entity(model='quad',color=color.dark_gray,scale_y=.5,z=player_controller.z,scale_x=5,x=18,y=4,collider='box')
 LeverForDoor=Interactable(functionCallBackOn=DoorUnlock,functionCallBackOff=DoorLock,x=20,y=4.5)
 
-def FinishedLevel2():
-    Level1Completed = True
-    data['Level2Completed'] = Level1Completed
+def FinishedLevel4():
+    Level4Completed = True
+    data['Level4Completed'] = Level4Completed
     with open("data.json", "w") as f:
         json.dump(data, f,indent=4)
     import subprocess
@@ -291,7 +291,7 @@ def FinishedLevel2():
 
     current_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-    file_path = os.path.join(current_dir, "level5.py")
+    file_path = os.path.join(current_dir, "Level5.py")
 
     subprocess.Popen(["python", file_path])
     sys.exit()
