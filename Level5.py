@@ -73,11 +73,17 @@ def Inverse():
         else:
             if hasattr(e, "ID"):
                 if e.ID=="Normal":
-                    e.color=color.black33
-                    e.collider='box'
+                    if e.name=='LaserBeam':
+                        e.color=color.pink
+                    else:
+                        e.color=color.black33
+                        e.collider='box'
                 if e.ID=="Inversed":
-                    e.color=color.rgb(255,0,255)
-                    e.collider=None
+                    if e.name=='LaserBeam':
+                        e.color=color.red
+                    else:
+                        e.color=color.rgb(255,0,255)
+                        e.collider=None
 
 
 vsyncEnabled=data['vsyncEnabled']
@@ -291,6 +297,7 @@ class LaserBeam(Entity):
         self.color=color.red
         self.cooldown = 0
         self.visible = True
+        self.name = 'LaserBeam'
 
     def update(self):
         self.cooldown = self.cooldown + 1
