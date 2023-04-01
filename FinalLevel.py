@@ -296,14 +296,14 @@ class Interactable(Entity):
 
 defaultPlayerPosition=Vec3(player_controller.position)
 class LaserBeam(Entity):
-    def __init__(self,ID,x=0,y=0, **kwargs):
+    def __init__(self,ID,x=0,y=0,cooldown_speed=1.1, **kwargs):
         super().__init__(self, **kwargs)
         self.model='quad'
         self.scale=(0.125,y)
         self.x=x
         self.y=y
         self.z=player_controller.z
-        self.id=ID
+        self.ID=ID
         self.canHit=True
         self.Visiblity=True
         self.Inversed=False
@@ -311,36 +311,37 @@ class LaserBeam(Entity):
         self.cooldown = 0
         self.visible = True
         self.name = 'LaserBeam'
+        self.cooldown_speed=cooldown_speed
         self.biggusCollidus=Entity(model='quad',color=color.clear,position=self.position,scale_y=self.scale_y+.08,scale_x=self.scale_x+.08,z=player_controller.z)
 
     def update(self):
         self.cooldown += time.dt
-        if self.cooldown >= 1.1:
+        if self.cooldown >= self.cooldown_speed:
             self.cooldown = 0
             if self.Visiblity and not self.Inversed:
-                self.visible = True
-                self.Visiblity = False
-            elif not self.Visiblity:
+                self.canHit = False
                 self.visible = False
-                self.Visiblity = True
+            elif not self.Visiblity and not self.Inversed:
+                self.visible = True
+                self.canHit = True
         if player_controller.intersects(self.biggusCollidus):
             player_controller.position=Vec3(defaultPlayerPosition)
         if self.canHit:
             self.biggusCollidus.collider='box'
         else:
             self.biggusCollidus.collider=None
-        if not self.Inversed:
+        if self.ID == 'Normal':
             self.color = color.red
-        elif self.Inversed:
-            self.color = color.clear
+        elif self.ID == 'Inversed':
+            self.color = rgb(255,0,255)
 
     def input(self, key):
         if key=='w':
             if not self.Inversed:
                 self.visible=False
-                self.Inversed=True
+                self.visible=True
             else:
-                self.Inversed=False
+                self.visible=False
 class Door(Entity):
     def __init__(self,locked, **kwargs):
         super().__init__(self, **kwargs)
@@ -377,12 +378,16 @@ invisWall=Entity(model='cube',color=color.clear,x=-50,scale_y=500,z=player_contr
 invisWall1=Entity(model='cube',color=color.clear,y=-8,x=20,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 invisWall1=Entity(model='cube',color=color.clear,y=2,x=27,scale_y=20,z=player_controller.z-.1,scale_z=20,collider='box')
 DoorForWall=Door(locked=True,y=-.5,x=-2)
-blockOne=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=5,scale=.3,y=0)
+blockOne=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=5,scale=.3,y=0,collider='box')
 blockTwo=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=6,scale=.3,y=1,collider='box')
-blockThree=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=7,scale=.3,y=2,)
-laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4)
-blockFour=Entity(ID="Normal",model='quad',color=rgb(255,0,255),z=player_controller.z,x=8,scale=.3,y=2,collider='box')
-movingPlatformone=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=10,toX=14)
+blockThree=Entity(ID="Inversed",model='quad',color=rgb(255,0,255),z=player_controller.z,x=7,scale=.3,y=2,collider='box')
+laserBeamOne=LaserBeam(ID='Normal',x=7.5,y=4,cooldown_speed=1)
+blockFour=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=8,scale=.3,y=2,collider='box')
+movingPlatformOne=MovingPlatform(ID='Inversed',color=rgb(255,0,255),y=4,fromX=9,toX=12)
+blockFive=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=4,collider='box')
+movingPlatformTwo=MovingPlatform_Vertical(ID='Inversed',color=rgb(255,0,255),x=14,fromY=4,toY=10)
+blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=13,scale=.3,y=6,collider='box')
+blockSix=Entity(ID="Normal",model='quad',color=color.black33,z=player_controller.z,x=15,scale=.3,y=8,collider='box')
 
 
 #laserBeamOne=LaserBeam(ID="Normal",x=4,y=0)
